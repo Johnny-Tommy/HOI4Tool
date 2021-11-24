@@ -1,0 +1,138 @@
+﻿<Page x:Class="HOI4Tool.Setup"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HOI4Tool"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1300"
+      Title="Setup">
+    <Grid Margin="0,0,0,0">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Backgrounds/Typex.png" Stretch="Fill" TileMode="None" Opacity="0.5" />
+        </Grid.Background>
+        <GroupBox x:Name="grpBoxEigenschaften" Header=" Einstellungen " Margin="10,10,10,40" Padding="0,0,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="400*"/>
+                    <!-- RowDefinition Height="40"/ -->
+                </Grid.RowDefinitions>
+                <GroupBox x:Name="grpBoxPfadeUndDateien" Grid.Column="0" Grid.Row="0" Header=" Pfade und Dateien " Margin="10,10,10,10">
+                    <Grid x:Name="gridPfadeUndDateien">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Army-Icons Verzeichnis:" FontWeight="Bold" Width="160"/>
+                            <TextBox x:Name="txtPfad_ArmyIcon" Width="500" FontFamily="Courier New" Text="{Binding Path=PathArmyIcons}" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Konfigdatei:" FontWeight="Bold" Width="160"/>
+                            <TextBox x:Name="txtFile_ArmyIconConfig" HorizontalAlignment="Center" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileArmyIconConfig}" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Army-Icons Grafikdatei:" FontWeight="Bold" Width="160"/>
+                            <TextBox x:Name="txtFile_ArmyIconGraphics" HorizontalAlignment="Center" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileArmyIconGraphics}" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="(selektiert)" FontWeight="Bold" Width="160"/>
+                            <TextBox x:Name="txtFile_ArmyIconGraphicsSelected" HorizontalAlignment="Left" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileArmyIconGraphicsSelected}" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Group-Icons Grafikdatei:" FontWeight="Bold" Width="160"/>
+                            <TextBox x:Name="txtFile_ArmyGroupIconGraphics" HorizontalAlignment="Center" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileArmyGroupIconGraphics}" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="(selektiert)" FontWeight="Bold" Width="160"/>
+                            <TextBox x:Name="txtFile_ArmyGroupIconGraphicsSelected" Width="230" FontFamily="Courier New" Text="{Binding Path=FileArmyGroupIconGraphicsSelected}" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Flotten-Icons Grafikdatei:" FontWeight="Bold" Width="160"/>
+                            <TextBox x:Name="txtFile_ArmyNavyIconGraphics" HorizontalAlignment="Center" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileNavyIconGraphics}" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="(selektiert)" FontWeight="Bold" Width="160"/>
+                            <TextBox x:Name="txtFile_ArmyNavyIconGraphicsSelected" HorizontalAlignment="Left" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileNavyIconGraphicsSelected}" Height="16" />
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Interface Verzeichnis:" FontWeight="Bold" Width="160"/>
+                            <TextBox x:Name="txtPfad_Interface" Width="500" FontFamily="Courier New" Text="{Binding Path=PathInterface}" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="GFX-Datei:" FontWeight="Bold" Width="160"/>
+                            <TextBox x:Name="txtFile_GFX" HorizontalAlignment="Left" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileTheatreSelector}" Height="16" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Backup Verzeichnis:" FontWeight="Bold" Width="160"/>
+                            <TextBox x:Name="txtPfad_Backup" Width="500" FontFamily="Courier New" Text="{Binding Path=PathBackup}" Height="16" />
+                        </StackPanel>
+
+                    </Grid>
+                </GroupBox>
+                
+                <GroupBox x:Name="grpBoxInsignien" Grid.Column="1" Grid.Row="0" Header=" Insignien " Margin="10,10,10,10">
+                    <Grid x:Name="gridInsignien">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Breite in Pixel:" FontWeight="Bold" Width="100"/>
+                            <TextBox x:Name="txtInsigniaX" HorizontalAlignment="Left" Width="30" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=InsigniaWidth}" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Höhe in Pixel:" FontWeight="Bold" Width="100" />
+                            <TextBox x:Name="txtInsigniaY" HorizontalAlignment="Left" Width="30" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=InsigniaHeight}" Height="16" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label Content="Lücke in Pixel:" Grid.Row="8" Grid.Column="0" FontWeight="Bold" Width="100"/>
+                            <TextBox x:Name="txtInsigniaGap" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left" Width="30" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=InsigniaGap}" Height="16" />
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+        <Label Name="lblGespeichert" Content="" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40" FontFamily="Arial Black"/>
+        <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Bottom">
+            <StackPanel.Background>
+                <SolidColorBrush Color="AliceBlue" Opacity="0.4"/>
+            </StackPanel.Background>
+            <Label Content="Speicherort der Konfiguration:" FontWeight="Medium" VerticalAlignment="Top" Height="26" Margin="0,0,0,0"></Label>
+            <Label Content="##############################" FontWeight="Regular" Name="lblSpeicherort" VerticalAlignment="Top" Height="26" Margin="0,0,0,0"/>
+        </StackPanel>
+        <Button Margin="5,5,5,5" Name="cmdSpeichern" Content="Speichern" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="cmdSpeichern_Click" Width="100" Height="20" />
+    </Grid>
+</Page>

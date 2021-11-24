@@ -1,0 +1,48 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="HOI4Tool.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PathArmyIcons" Type="System.String" Scope="User">
+      <Value Profile="(Default)">d:\gfx\army_icons\</Value>
+    </Setting>
+    <Setting Name="PathBackup" Type="System.String" Scope="User">
+      <Value Profile="(Default)">d:\backup\</Value>
+    </Setting>
+    <Setting Name="InsigniaGap" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="InsigniaWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">32</Value>
+    </Setting>
+    <Setting Name="InsigniaHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">32</Value>
+    </Setting>
+    <Setting Name="FileArmyIconConfig" Type="System.String" Scope="User">
+      <Value Profile="(Default)">army_icons.txt</Value>
+    </Setting>
+    <Setting Name="FileArmyIconGraphics" Type="System.String" Scope="User">
+      <Value Profile="(Default)">army_icons.dds</Value>
+    </Setting>
+    <Setting Name="FileArmyGroupIconGraphics" Type="System.String" Scope="User">
+      <Value Profile="(Default)">army_group_icons.dds</Value>
+    </Setting>
+    <Setting Name="FileNavyIconGraphics" Type="System.String" Scope="User">
+      <Value Profile="(Default)">navy_icons.dds</Value>
+    </Setting>
+    <Setting Name="FileArmyIconGraphicsSelected" Type="System.String" Scope="User">
+      <Value Profile="(Default)">army_selected_icons.dds</Value>
+    </Setting>
+    <Setting Name="FileArmyGroupIconGraphicsSelected" Type="System.String" Scope="User">
+      <Value Profile="(Default)">army_group_selected_icons.dds</Value>
+    </Setting>
+    <Setting Name="FileNavyIconGraphicsSelected" Type="System.String" Scope="User">
+      <Value Profile="(Default)">navy_selected_icons.dds</Value>
+    </Setting>
+    <Setting Name="PathInterface" Type="System.String" Scope="User">
+      <Value Profile="(Default)">d:\interface\</Value>
+    </Setting>
+    <Setting Name="FileTheatreSelector" Type="System.String" Scope="User">
+      <Value Profile="(Default)">theatreselector.gfx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

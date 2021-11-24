@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
+    <Authors>Johannes Thom</Authors>
+    <ApplicationIcon>Tool.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Backgrounds\Bunker.png" />
+    <None Remove="Backgrounds\Typex.png" />
+    <None Remove="Icons\bullet.png" />
+    <None Remove="Icons\Configuration.png" />
+    <None Remove="Icons\Note pad.png" />
+    <None Remove="Icons\Picture.png" />
+    <None Remove="Icons\Restricted.png" />
+    <None Remove="Icons\Tool.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCnEncoder.Net" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.2" />
+    <PackageReference Include="Pdoxcl2Sharp" Version="0.6.1" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Toolkit.HighPerformance">
+      <HintPath>..\WPF-Projekte\HOI4Tool\bin\Release\netcoreapp3.1\Microsoft.Toolkit.HighPerformance.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Backgrounds\Bunker.png" />
+    <Resource Include="Backgrounds\Typex.png" />
+    <Resource Include="Icons\bullet.png" />
+    <Resource Include="Icons\Configuration.png" />
+    <Resource Include="Icons\Note pad.png" />
+    <Resource Include="Icons\Picture.png" />
+    <Resource Include="Icons\Restricted.png" />
+    <Resource Include="Icons\Tool.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>
