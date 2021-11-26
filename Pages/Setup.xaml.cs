@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace HOI4Tool
 {
     /// <summary>
-    /// Interaktionslogik für Setup.xaml
+    /// Interaktionslogik für Setup.xaml 
     /// </summary>
     public partial class Setup : Page
     {
