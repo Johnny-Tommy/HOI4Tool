@@ -143,9 +143,9 @@
                         </Grid.RowDefinitions>
                         <Label Grid.Column="0" Grid.Row="0" Content="Grafik:" />
                         <Image Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Source="{Binding BmpSource}" Height="100" Width="100" />
-                        <Label Grid.Column="0" Grid.Row="1" Content="color__override:" />
+                        <Label Grid.Column="0" Grid.Row="1" Content="color__override:" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" />
                         <CheckBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding ColorOverrideSrc}" IsEnabled="{Binding ColorOverrideIsEnabledSrc}" />
-                        <Label Grid.Column="0" Grid.Row="2" Content="name:" />
+                        <Label Grid.Column="0" Grid.Row="2" Content="name:" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" />
                         <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Name}" IsEnabled="{Binding NameIsEnabledSrc}" TextWrapping="NoWrap" Height="20" Width="200" />
                         <GroupBox Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Header=" Verfügbarkeit " Margin="10,10,10,10" IsEnabled="{Binding AvailablesIsEnableSrc}">
                             <Grid Margin="10,10,10,10">
