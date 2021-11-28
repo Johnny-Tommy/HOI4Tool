@@ -8,6 +8,18 @@
       d:DesignHeight="1000" d:DesignWidth="1500"
       Title="Insignieneditor">
 
+    <Page.Resources>
+        <Style x:Key="CheckBoxOption" TargetType="{x:Type CheckBox}">
+            <Setter Property="BorderThickness" Value="3" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <DataTemplate x:Key="groupboxTemplate">
+            <CheckBox Name="chkProcess" Content=" Verfügbarkeit " Style="{StaticResource CheckBoxOption}" IsChecked="{Binding ElementName=btnProcess1,Path=IsEnabled}" />
+        </DataTemplate>
+    </Page.Resources>
+    
     <Grid Margin="0,0,0,0">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -132,7 +144,7 @@
                 <GroupBox Grid.Column="1" Grid.Row="1" Header=" Eigenschaften " Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="900" Height="800"  >
                     <Grid Name="gridIconProperties">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="120" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -143,12 +155,12 @@
                         </Grid.RowDefinitions>
                         <Label Grid.Column="0" Grid.Row="0" Content="Grafik:" />
                         <Image Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Source="{Binding BmpSource}" Height="100" Width="100" />
-                        <Label Grid.Column="0" Grid.Row="1" Content="color__override:" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" />
+                        <CheckBox Grid.Row="1" Grid.Column="0" Style="{StaticResource CheckBoxOption}" Content="color__override" />
                         <CheckBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding ColorOverrideSrc}" IsEnabled="{Binding ColorOverrideIsEnabledSrc}" />
-                        <Label Grid.Column="0" Grid.Row="2" Content="name:" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" />
+                        <CheckBox Grid.Row="2" Grid.Column="0" Style="{StaticResource CheckBoxOption}" Content="name" />
                         <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Name}" IsEnabled="{Binding NameIsEnabledSrc}" TextWrapping="NoWrap" Height="20" Width="200" />
-                        <GroupBox Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Header=" Verfügbarkeit " Margin="10,10,10,10" IsEnabled="{Binding AvailablesIsEnableSrc}">
-                            <Grid Margin="10,10,10,10">
+                        <GroupBox Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="10,10,10,10" HeaderTemplate="{DynamicResource groupboxTemplate}">
+                            <Grid Margin="10,10,10,10" IsEnabled="{Binding AvailablesIsEnableSrc}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="*" />
