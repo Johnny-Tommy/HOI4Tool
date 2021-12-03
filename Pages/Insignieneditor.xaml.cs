@@ -135,7 +135,7 @@ namespace HOI4Tool
             {
                 ParadoxCategory typ = (ParadoxCategory)comboBoxTyp.SelectedIndex;
 
-                // Hier noch ne Sicherung einbauen, falls es aus irgendeinem Grund mehere Gruppen gibt.
+#warning Hier noch ne Sicherung einbauen, falls es aus irgendeinem Grund mehere Gruppen gibt.
                 foreach (ParadoxType ptyp in armeeIcons.ParadoxTypes)
                 {
                     if(ptyp.ParadoxCategory == typ)
@@ -275,7 +275,7 @@ namespace HOI4Tool
                 DataGridCellInfo cellInfo = dataGridInsignien.SelectedCells[0];
                 Row r = (Row)cellInfo.Item;
                 _currentSelectedIcon = r.Icons[cellInfo.Column.DisplayIndex];
-                gridIconProperties.DataContext = _currentSelectedIcon;
+                gridIconProperties.DataContext = this._currentSelectedIcon;                
             }
             else
             {

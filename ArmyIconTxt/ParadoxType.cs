@@ -41,8 +41,8 @@ namespace HOI4Tool
             switch (token)
             {
                 case "gfx": Gfx = parser.ReadString(); break;
-                case "icon": Icons.Add(parser.Parse(new Icon())); break;
-            }
+                case "icon": Icons.Add(parser.Parse(new Icon())); break;                    
+            }            
         }
 
         /// <summary>

@@ -15,11 +15,16 @@
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        <DataTemplate x:Key="groupboxTemplate">
-            <CheckBox Name="chkProcess" Content=" Verfügbarkeit " Style="{StaticResource CheckBoxOption}" IsChecked="{Binding ElementName=btnProcess1,Path=IsEnabled}" />
+        <DataTemplate x:Key="groupboxTemplate" x:Name="groupBoxAvailable">
+            <!-- 
+                ElementName im Binding gibt an, aus welchem Datenkontext die Felder wie z.B. AvailablesIsEnableSrc gelesen werden können.
+                Dies muss bei DataTemplates explizit mit angegeben werden, da diese quasi "frei schwebend" sind und keinem Datenkontext 
+                zugehörig sind.
+            -->
+            <CheckBox Content=" Verfügbarkeit " Style="{StaticResource CheckBoxOption}" IsChecked="{Binding DataContext.AvailablesIsEnableSrc,ElementName=gridIconProperties}" />
         </DataTemplate>
     </Page.Resources>
-    
+
     <Grid Margin="0,0,0,0">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -142,7 +147,8 @@
                     <Button Margin="10,10,10,10" Width="100" Height="25" Name="cmdSpeichern" Content="Speichern" Click="cmdSpeichern_Click" />
                 </StackPanel>
                 <GroupBox Grid.Column="1" Grid.Row="1" Header=" Eigenschaften " Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="900" Height="800"  >
-                    <Grid Name="gridIconProperties">
+                    <!-- Über diesen Namen wird in der Insignieneditor.xaml.cs der Datenkontext des aktuellen ICONs angebunden. -->
+                    <Grid x:Name="gridIconProperties">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="120" />
                             <ColumnDefinition Width="*" />
@@ -155,14 +161,31 @@
                         </Grid.RowDefinitions>
                         <Label Grid.Column="0" Grid.Row="0" Content="Grafik:" />
                         <Image Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Source="{Binding BmpSource}" Height="100" Width="100" />
-                        <CheckBox Grid.Row="1" Grid.Column="0" Style="{StaticResource CheckBoxOption}" Content="color__override" />
+                        <!-- color_override -->
+                        <CheckBox Grid.Row="1" Grid.Column="0" Style="{StaticResource CheckBoxOption}" Content="color__override" IsChecked="{Binding ColorOverrideIsEnabledSrc}" />
                         <CheckBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding ColorOverrideSrc}" IsEnabled="{Binding ColorOverrideIsEnabledSrc}" />
-                        <CheckBox Grid.Row="2" Grid.Column="0" Style="{StaticResource CheckBoxOption}" Content="name" />
-                        <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Name}" IsEnabled="{Binding NameIsEnabledSrc}" TextWrapping="NoWrap" Height="20" Width="200" />
+                        <!-- name -->
+                        <CheckBox Grid.Row="2" 
+                                  Grid.Column="0" 
+                                  Content="name" 
+                                  Style="{StaticResource CheckBoxOption}" 
+                                  IsChecked="{Binding NameIsEnabledSrc,Mode=TwoWay}" 
+                                  />
+                        <TextBox Grid.Column="1" 
+                                 Grid.Row="2" 
+                                 VerticalAlignment="Center" 
+                                 HorizontalAlignment="Left" 
+                                 TextWrapping="NoWrap" 
+                                 Height="20" 
+                                 Width="200"
+                                 Text="{Binding Name,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}" 
+                                 IsEnabled="{Binding NameIsEnabledSrc,Mode=TwoWay}" 
+                                 />
+                        <!-- Verfügbarkeit (Binding siehe oben im Template) -->
                         <GroupBox Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="10,10,10,10" HeaderTemplate="{DynamicResource groupboxTemplate}">
-                            <Grid Margin="10,10,10,10" IsEnabled="{Binding AvailablesIsEnableSrc}">
+                            <Grid Margin="10,10,10,10" IsEnabled="{Binding AvailablesIsEnableSrc}" x:Name="gridAvailableProperties">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="130" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
@@ -171,12 +194,37 @@
                                     <RowDefinition Height="40" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.Column="0" Grid.Row="0" Content="has__government:" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                <ComboBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" IsEnabled="{Binding HasGovernmentIsEnabledSrc}" HorizontalAlignment="Left" ItemsSource="{Binding Availables[0].HasGovernmentSrc}" SelectedValue="{Binding Availables[0].HasGovernment}" Height="20" Width="150" />
-                                <Label Grid.Column="0" Grid.Row="1" Content="tag:" />
-                                <ComboBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" IsEnabled="{Binding TagIsEnabledSrc}" HorizontalAlignment="Left" ItemsSource="{Binding Availables[0].TagSrc}" SelectedValue="{Binding Availables[0].Tag}" Height="20" Width="60" />
-                                <Label Grid.Column="0" Grid.Row="2" Content="has__dlc:" />
-                                <ComboBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" IsEnabled="{Binding HasDlcIsEnabledSrc}" HorizontalAlignment="Left" ItemsSource="{Binding Availables[0].HasDlcSrc}" SelectedValue="{Binding Availables[0].HasDlc}" Height="20" Width="200" />
+                                <!-- has_government -->
+                                <CheckBox x:Name="checkBoxHasGovernment"
+                                          Grid.Row="0" 
+                                          Grid.Column="0" 
+                                          Style="{StaticResource CheckBoxOption}" 
+                                          Content="has__government" 
+                                          IsChecked="{Binding Availables[0].HasGovernmentIsCheckedSrc,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                          />
+                                <!-- ItemsSource="{Binding DataContext.Availables[0].HasGovernmentSrc,Mode=TwoWay,ElementName=gridIconProperties,UpdateSourceTrigger=PropertyChanged}" -->
+                                <!-- IsEnabled="{Binding Availables[0].HasGovernmentIsCheckedSrc,Mode=TwoWay}" -->
+                                <ComboBox Grid.Column="1" 
+                                          Grid.Row="0" 
+                                          Height="20" 
+                                          Width="150"
+                                          VerticalAlignment="Center" 
+                                          HorizontalAlignment="Left"                                           
+                                          SelectedValue="{Binding HasGovernment,Mode=TwoWay}" 
+                                          IsEnabled="{Binding IsChecked, ElementName=checkBoxHasGovernment}"
+                                          ItemsSource="{Binding DataContext.Availables[0].HasGovernmentSrc,Mode=TwoWay,ElementName=gridIconProperties,UpdateSourceTrigger=PropertyChanged}">
+                                    <!--
+                                    <ComboBox.DataContext>
+                                        <local:Available/>
+                                    </ComboBox.DataContext>
+                                    -->
+                                </ComboBox>
+                                <!-- tag -->
+                                <CheckBox Grid.Row="1" Grid.Column="0" Style="{StaticResource CheckBoxOption}" IsChecked="{Binding Availables[0].TagIsCheckedSrc}" Content="tag" />
+                                <ComboBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" IsEnabled="{Binding Availables[0].TagIsCheckedSrc}" HorizontalAlignment="Left" ItemsSource="{Binding Availables[0].TagSrc}" SelectedValue="{Binding Availables[0].Tag}" Height="20" Width="60" />
+                                <!-- has_dlc -->
+                                <CheckBox Grid.Row="2" Grid.Column="0" Style="{StaticResource CheckBoxOption}"  IsChecked="{Binding Availables[0].HasDlcIsCheckedSrc}" Content="has__dlc" />
+                                <ComboBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" IsEnabled="{Binding Availables[0].HasDlcIsCheckedSrc}" HorizontalAlignment="Left" ItemsSource="{Binding Availables[0].HasDlcSrc}" SelectedValue="{Binding Availables[0].HasDlc}" Height="20" Width="200" />
                                 <GroupBox Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Header=" Ausnahmen " Margin="10,10,10,10" IsEnabled="{Binding NotIsEnableSrc}">
                                     <Grid Margin="10,10,10,10">
                                         <Grid.ColumnDefinitions>

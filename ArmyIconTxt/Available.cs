@@ -4,9 +4,12 @@ using System.Text;
 
 using Pdoxcl2Sharp;
 
+//using System.ComponentModel;
+//using System.Runtime.CompilerServices;
+
 namespace HOI4Tool
 {
-    public class Available : IParadoxRead
+    public class Available : IParadoxRead//, INotifyPropertyChanged
     {
         public string HasDlc { get; set; }
         public string Tag { get; set; }
@@ -20,6 +23,13 @@ namespace HOI4Tool
         {
             NOT = new List<Not>();
         }
+
+        //public event PropertyChangedEventHandler PropertyChanged;
+
+        //protected virtual void OnPropertyChanged([CallerMemberName] string name = null)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        //}
 
         /// <summary>
         /// Gibt die Tags zurück, die noch nicht verwendet werden. Als Pool wird die Eigenschaft TagSrc verwendet, in der
@@ -70,27 +80,61 @@ namespace HOI4Tool
             }
         }
 
-        public bool HasGovernmentIsEnabledSrc
+        public bool HasGovernmentIsCheckedSrc
         {
             get
             {
                 return this.HasGovernment == null ? false : true;
             }
+            set
+            {
+                if(this.HasGovernment == null)
+                {
+                    this.HasGovernment = string.Empty;
+                }
+                else
+                {
+                    // Häkchen ist weg und Eigenschaft wird nicht verwendet.
+                    this.HasGovernment = null;
+                }
+            }            
         }
 
-        public bool TagIsEnabledSrc
+        public bool TagIsCheckedSrc
         {
             get
             {
                 return this.Tag == null ? false : true;
             }
+            set
+            {
+                if(this.Tag == null)
+                {
+                    this.Tag = string.Empty;
+                }
+                else
+                {
+                    this.Tag = null;
+                }
+            }
         }
 
-        public bool HasDlcIsEnabledSrc
+        public bool HasDlcIsCheckedSrc
         {
             get
             {
                 return this.HasDlc == null ? false : true;
+            }
+            set
+            {
+                if(this.HasDlc == null)
+                {
+                    this.HasDlc = string.Empty;
+                }
+                else
+                {
+                    this.HasDlc = null;
+                }
             }
         }
 

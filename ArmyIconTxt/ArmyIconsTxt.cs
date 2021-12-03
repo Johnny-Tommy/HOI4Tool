@@ -77,6 +77,7 @@ namespace HOI4Tool
                             foreach (Available avail in ico.Availables)
                             {
                                 if (!string.IsNullOrWhiteSpace(avail.HasGovernment)) writer.WriteLine("has_government", avail.HasGovernment + " ", ValueWrite.LeadingTabs);
+                                // Encoding.UTF8.GetString(Encoding.Default.GetBytes(avail.HasDlc))
                                 if (!string.IsNullOrWhiteSpace(avail.HasDlc)) writer.WriteLine("has_dlc", avail.HasDlc, ValueWrite.Quoted);
                                 if (!string.IsNullOrWhiteSpace(avail.Tag)) writer.WriteLine("tag", avail.Tag, ValueWrite.LeadingTabs);
                                 if (avail.NOT.Count > 0)
