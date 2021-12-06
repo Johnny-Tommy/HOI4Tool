@@ -16,6 +16,7 @@ namespace HOI4Tool
 {
     public class Icon : IParadoxRead, INotifyPropertyChanged
     {
+        private Available _tempAvailable;
         public string Name { get; set; }
         public string ColorOverride { get; set; }
         /// <summary>
@@ -30,7 +31,7 @@ namespace HOI4Tool
 
         public Icon()
         {
-            Availables = new List<Available>();
+            this.Availables = new List<Available>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -38,6 +39,22 @@ namespace HOI4Tool
         protected virtual void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+       public Available TestSrc
+        {
+            get
+            {
+                if (this.Availables.Count > 0)
+                {
+                    return this.Availables[0];
+                }
+                else
+                {
+                    this._tempAvailable = new Available();
+                    return this._tempAvailable;
+                }
+            }
         }
 
         public bool AvailablesIsEnableSrc
@@ -61,7 +78,7 @@ namespace HOI4Tool
                 }
 
                 // XAML-Bindingengine melden, dass sich die Daten geändert haben.
-                OnPropertyChanged();
+                OnPropertyChanged(); System.Windows.MessageBox.Show("OnPropertyChanged() Icons");
             }
         }
 
@@ -81,6 +98,8 @@ namespace HOI4Tool
                 {
                     this.Name = null;
                 }
+
+                // XAML-Bindingengine melden, dass sich die Daten geändert haben.
                 OnPropertyChanged();
             }
         }
@@ -101,6 +120,9 @@ namespace HOI4Tool
                 {
                     this.ColorOverride = null;
                 }
+
+                // XAML-Bindingengine melden, dass sich die Daten geändert haben.
+                OnPropertyChanged();
             }
         }
 

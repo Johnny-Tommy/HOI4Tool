@@ -4,8 +4,8 @@ using System.Text;
 
 using Pdoxcl2Sharp;
 
-//using System.ComponentModel;
-//using System.Runtime.CompilerServices;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace HOI4Tool
 {
@@ -21,15 +21,15 @@ namespace HOI4Tool
 
         public Available()
         {
-            NOT = new List<Not>();
+            this.NOT = new List<Not>();
         }
 
-        //public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        //protected virtual void OnPropertyChanged([CallerMemberName] string name = null)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        //}
+        protected virtual void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
 
         /// <summary>
         /// Gibt die Tags zurück, die noch nicht verwendet werden. Als Pool wird die Eigenschaft TagSrc verwendet, in der
@@ -91,12 +91,17 @@ namespace HOI4Tool
                 if(this.HasGovernment == null)
                 {
                     this.HasGovernment = string.Empty;
+
                 }
                 else
                 {
                     // Häkchen ist weg und Eigenschaft wird nicht verwendet.
                     this.HasGovernment = null;
                 }
+
+                // XAML-Bindingengine melden, dass sich die Daten geändert haben.
+                OnPropertyChanged();
+                System.Windows.MessageBox.Show("OnPropertyChanged() Available");
             }            
         }
 

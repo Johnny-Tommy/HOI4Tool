@@ -29,11 +29,12 @@ namespace HOI4Tool
                 return this._ParadoxCategory;
             }
         }
+
         public ParadoxType(string filename, ParadoxCategory category)
         {
-            Icons = new List<Icon>();
-            _Grafikdateiname = filename;
-            _ParadoxCategory = category;
+            this.Icons = new List<Icon>();
+            this._Grafikdateiname = filename;
+            this._ParadoxCategory = category;
         }
 
         public void TokenCallback(Pdoxcl2Sharp.ParadoxParser parser, string token)

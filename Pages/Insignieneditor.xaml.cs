@@ -275,7 +275,7 @@ namespace HOI4Tool
                 DataGridCellInfo cellInfo = dataGridInsignien.SelectedCells[0];
                 Row r = (Row)cellInfo.Item;
                 _currentSelectedIcon = r.Icons[cellInfo.Column.DisplayIndex];
-                gridIconProperties.DataContext = this._currentSelectedIcon;                
+                gridIconProperties.DataContext = this._currentSelectedIcon;
             }
             else
             {
