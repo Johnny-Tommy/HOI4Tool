@@ -4,12 +4,9 @@ using System.Text;
 
 using Pdoxcl2Sharp;
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
 namespace HOI4Tool
 {
-    public class Available : IParadoxRead//, INotifyPropertyChanged
+    public class Available : IParadoxRead
     {
         public string HasDlc { get; set; }
         public string Tag { get; set; }
@@ -22,13 +19,6 @@ namespace HOI4Tool
         public Available()
         {
             this.NOT = new List<Not>();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         /// <summary>
@@ -97,11 +87,7 @@ namespace HOI4Tool
                 {
                     // Häkchen ist weg und Eigenschaft wird nicht verwendet.
                     this.HasGovernment = null;
-                }
-
-                // XAML-Bindingengine melden, dass sich die Daten geändert haben.
-                OnPropertyChanged();
-                System.Windows.MessageBox.Show("OnPropertyChanged() Available");
+                }                            
             }            
         }
 

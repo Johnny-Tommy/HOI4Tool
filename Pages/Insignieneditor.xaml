@@ -219,9 +219,8 @@
                                           Grid.Column="0" 
                                           Style="{StaticResource CheckBoxOption}" 
                                           Content="has__government" 
-                                          IsChecked="{Binding TestSrc.HasGovernmentIsCheckedSrc,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                          IsChecked="{Binding AvailablesSrc.HasGovernmentIsCheckedSrc,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                                           />
-                                <!-- IsChecked="{Binding Availables[0].HasGovernmentIsCheckedSrc,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" -->
                                 <ComboBox Grid.Column="1" 
                                           Grid.Row="0" 
                                           Height="20" 
@@ -229,17 +228,16 @@
                                           VerticalAlignment="Center" 
                                           HorizontalAlignment="Left"                                           
                                           IsEnabled="{Binding IsChecked, ElementName=checkBoxHasGovernment}"
-                                          ItemsSource="{Binding TestSrc.HasGovernmentSrc}"
-                                          SelectedValue="{Binding TestSrc.HasGovernment}" 
+                                          ItemsSource="{Binding AvailablesSrc.HasGovernmentSrc}"
+                                          SelectedValue="{Binding AvailablesSrc.HasGovernment}" 
                                           />
-                                <!-- ItemsSource="{Binding Availables[0].HasGovernmentSrc}"
-                                     SelectedValue="{Binding Availables[0].HasGovernment}" -->                                
                                 <!-- tag -->
-                                <CheckBox Grid.Row="1" 
+                                <CheckBox x:Name="checkBoxHasTag"
+                                          Grid.Row="1" 
                                           Grid.Column="0" 
-                                          Style="{StaticResource CheckBoxOption}" 
-                                          IsChecked="{Binding Availables[0].TagIsCheckedSrc}" 
                                           Content="tag" 
+                                          Style="{StaticResource CheckBoxOption}" 
+                                          IsChecked="{Binding AvailablesSrc.TagIsCheckedSrc}" 
                                           />
                                 <ComboBox Grid.Column="1" 
                                           Grid.Row="1" 
@@ -247,13 +245,28 @@
                                           HorizontalAlignment="Left" 
                                           Height="20" 
                                           Width="60" 
-                                          IsEnabled="{Binding Availables[0].TagIsCheckedSrc}" 
-                                          ItemsSource="{Binding Availables[0].TagSrc}" 
-                                          SelectedValue="{Binding Availables[0].Tag}" 
+                                          IsEnabled="{Binding IsChecked, ElementName=checkBoxHasTag}" 
+                                          ItemsSource="{Binding AvailablesSrc.TagSrc}" 
+                                          SelectedValue="{Binding AvailablesSrc.Tag}" 
                                           />
                                 <!-- has_dlc -->
-                                <CheckBox Grid.Row="2" Grid.Column="0" Style="{StaticResource CheckBoxOption}"  IsChecked="{Binding Availables[0].HasDlcIsCheckedSrc}" Content="has__dlc" />
-                                <ComboBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" IsEnabled="{Binding Availables[0].HasDlcIsCheckedSrc}" HorizontalAlignment="Left" ItemsSource="{Binding Availables[0].HasDlcSrc}" SelectedValue="{Binding Availables[0].HasDlc}" Height="20" Width="200" />
+                                <CheckBox x:Name="checkBoxHasDlc" 
+                                          Grid.Row="2" 
+                                          Grid.Column="0" 
+                                          Content="has__dlc" 
+                                          Style="{StaticResource CheckBoxOption}"  
+                                          IsChecked="{Binding AvailablesSrc.HasDlcIsCheckedSrc}" 
+                                          />
+                                <ComboBox Grid.Column="1" 
+                                          Grid.Row="2" 
+                                          VerticalAlignment="Center" 
+                                          HorizontalAlignment="Left" 
+                                          Height="20" 
+                                          Width="200" 
+                                          IsEnabled="{Binding IsChecked, ElementName=checkBoxHasDlc}" 
+                                          ItemsSource="{Binding AvailablesSrc.HasDlcSrc}" 
+                                          SelectedValue="{Binding AvailablesSrc.HasDlc}" 
+                                          />
                                 <GroupBox Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Header=" Ausnahmen " Margin="10,10,10,10">
                                     <Grid Margin="10,10,10,10">
                                         <Grid.ColumnDefinitions>

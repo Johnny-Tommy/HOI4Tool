@@ -16,7 +16,7 @@ namespace HOI4Tool
 {
     public class Icon : IParadoxRead, INotifyPropertyChanged
     {
-        private Available _tempAvailable;
+        private Available _tempAvailable = null;
         public string Name { get; set; }
         public string ColorOverride { get; set; }
         /// <summary>
@@ -41,7 +41,7 @@ namespace HOI4Tool
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-       public Available TestSrc
+       public Available AvailablesSrc
         {
             get
             {
@@ -51,7 +51,7 @@ namespace HOI4Tool
                 }
                 else
                 {
-                    this._tempAvailable = new Available();
+                    if(this._tempAvailable == null) this._tempAvailable = new Available();
                     return this._tempAvailable;
                 }
             }
@@ -70,7 +70,14 @@ namespace HOI4Tool
             {
                 if(this.Availables.Count == 0)
                 {
-                    this.Availables.Add(new Available());
+                    if(this._tempAvailable == null)
+                    {
+                        this.Availables.Add(new Available());
+                    }
+                    else
+                    {
+                        this.Availables.Add(this._tempAvailable);
+                    }
                 }
                 else
                 {
