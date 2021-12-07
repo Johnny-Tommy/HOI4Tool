@@ -41,22 +41,9 @@ namespace HOI4Tool
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-       public Available AvailablesSrc
-        {
-            get
-            {
-                if (this.Availables.Count > 0)
-                {
-                    return this.Availables[0];
-                }
-                else
-                {
-                    if(this._tempAvailable == null) this._tempAvailable = new Available();
-                    return this._tempAvailable;
-                }
-            }
-        }
-
+        /// <summary>
+        /// Für die Checkbox in der GroupBox "Verfügbarkeit"
+        /// </summary>
         public bool AvailablesIsEnableSrc
         {
             get
@@ -68,6 +55,9 @@ namespace HOI4Tool
             }
             set
             {
+                // Wenn es noch keinen Eintrag gibt, muss trotzdem ein Available-Objekt zurückgegeben
+                // werden. Vor der Rückgabe wird geschaut, ob es ein Dummyobjekt (das tempAvailable) gibt.
+                // Wenn dies der Fall ist, wird dieses der offiziellen Liste zugewiesen und zurückgegeben.
                 if(this.Availables.Count == 0)
                 {
                     if(this._tempAvailable == null)
@@ -86,6 +76,31 @@ namespace HOI4Tool
 
                 // XAML-Bindingengine melden, dass sich die Daten geändert haben.
                 OnPropertyChanged(); System.Windows.MessageBox.Show("OnPropertyChanged() Icons");
+            }
+        }
+
+        /// <summary>
+        /// Diese Eigenschaft dient als Quelle für die Groupbox "Verfügbarkeit" des Insignieneditors.
+        /// Der "Availables-Block" ist nicht immer in der Konfigdatei vorhanden,
+        /// muss aber trotzdem dargestellt werden (dann leer), da es sonst zu
+        /// Bindingfehlern kommt. Dies wird mit einem Dummyobjektt (_tempAvailable)
+        /// gelöst. Sobald dann wirklich ein Available-Block in der Konfigdatei
+        /// erstellt werden soll, wird dieses temporäre Objekt offiziell in der
+        /// Liste als 1. Objekt der Availables aufgenommen.
+        /// </summary>
+        public Available AvailablesSrc
+        {
+            get
+            {
+                if (this.Availables.Count > 0)
+                {
+                    return this.Availables[0];
+                }
+                else
+                {
+                    if (this._tempAvailable == null) this._tempAvailable = new Available();
+                    return this._tempAvailable;
+                }
             }
         }
 

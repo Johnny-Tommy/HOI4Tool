@@ -31,101 +31,109 @@ namespace HOI4Tool
 #warning Backupfunktion muss noch implantiert werden!
             InitializeComponent();
 
-            // Erst einmal Army-Icon-Datei von Paradox einlesen
-            string completeConfigPath = Settings.Default.PathArmyIcons + Settings.Default.FileArmyIconConfig;
-            string completeGraphicsPath = Settings.Default.PathArmyIcons + Settings.Default.FileArmyIconGraphics;
 
-            if (File.Exists(completeConfigPath))
+            try
             {
-                if (File.Exists(completeGraphicsPath))
+                // Erst einmal Army-Icon-Datei von Paradox einlesen
+                string completeConfigPath = Settings.Default.PathArmyIcons + Settings.Default.FileArmyIconConfig;
+                string completeGraphicsPath = Settings.Default.PathArmyIcons + Settings.Default.FileArmyIconGraphics;
+
+                if (File.Exists(completeConfigPath))
                 {
-                    // *******************************************************************
-                    // ********** Paradox Konfigurationsdatei komplett einlesen ********** 
-                    // *******************************************************************
-                    using (FileStream fs = new FileStream(completeConfigPath, FileMode.Open))
+                    if (File.Exists(completeGraphicsPath))
                     {
-                        armeeIcons = Pdoxcl2Sharp.ParadoxParser.Parse(fs, new ArmyIconsTxt());
-                    }
-
-                    // *********************************************************
-                    // ********** Paradox GFX-Datei komplett einlesen ********** 
-                    // *********************************************************
-                    using (FileStream fs = new FileStream(Settings.Default.PathInterface + Settings.Default.FileTheatreSelector, FileMode.Open))
-                    {
-                        theatreSelectorGFX = Pdoxcl2Sharp.ParadoxParser.Parse(fs, new SpriteTypes());
-                    }
-
-                    // ***********************************************************************************************
-                    // ********** In die Konfigurationsstruktur werden nun die zugehörigen Grafiken geladen ********** 
-                    // ***********************************************************************************************
-                    foreach (ParadoxType paradoxType in armeeIcons.ParadoxTypes)
-                    {
-                        if(!string.IsNullOrEmpty(paradoxType.Grafikdateiname))
+                        // *******************************************************************
+                        // ********** Paradox Konfigurationsdatei komplett einlesen ********** 
+                        // *******************************************************************
+                        using (FileStream fs = new FileStream(completeConfigPath, FileMode.Open))
                         {
-                            if (paradoxType.Icons.Count > 0)
+                            armeeIcons = Pdoxcl2Sharp.ParadoxParser.Parse(fs, new ArmyIconsTxt());
+                        }
+
+                        // *********************************************************
+                        // ********** Paradox GFX-Datei komplett einlesen ********** 
+                        // *********************************************************
+                        using (FileStream fs = new FileStream(Settings.Default.PathInterface + Settings.Default.FileTheatreSelector, FileMode.Open))
+                        {
+                            theatreSelectorGFX = Pdoxcl2Sharp.ParadoxParser.Parse(fs, new SpriteTypes());
+                        }
+
+                        // ***********************************************************************************************
+                        // ********** In die Konfigurationsstruktur werden nun die zugehörigen Grafiken geladen ********** 
+                        // ***********************************************************************************************
+                        foreach (ParadoxType paradoxType in armeeIcons.ParadoxTypes)
+                        {
+                            if (!string.IsNullOrEmpty(paradoxType.Grafikdateiname))
                             {
-                                // zugehörige Grafikdatei laden
-                                DDSFile ddsDatei = new DDSFile(Settings.Default.PathArmyIcons, paradoxType.Grafikdateiname);
-                                if (ddsDatei.Status == "OK")
+                                if (paradoxType.Icons.Count > 0)
                                 {
-                                    if (ddsDatei.HeightInPixel == Settings.Default.InsigniaHeight)
+                                    // zugehörige Grafikdatei laden
+                                    DDSFile ddsDatei = new DDSFile(Settings.Default.PathArmyIcons, paradoxType.Grafikdateiname);
+                                    if (ddsDatei.Status == "OK")
                                     {
-                                        int x2 = Settings.Default.InsigniaWidth + Settings.Default.InsigniaGap;
-                                        if (x2 > 0)
+                                        if (ddsDatei.HeightInPixel == Settings.Default.InsigniaHeight)
                                         {
-                                            if ((ddsDatei.WidthInPixel / x2) == paradoxType.Icons.Count)
+                                            int x2 = Settings.Default.InsigniaWidth + Settings.Default.InsigniaGap;
+                                            if (x2 > 0)
                                             {
-                                                int x = 0;
-                                                foreach (Icon icon in paradoxType.Icons)
+                                                if ((ddsDatei.WidthInPixel / x2) == paradoxType.Icons.Count)
                                                 {
-                                                    icon.Bmp = ddsDatei.GetCustomBitmap(x);
-                                                    icon.BmpSource = ddsDatei.Bitmap2BitmapImage(icon.Bmp);
-                                                    x += Settings.Default.InsigniaWidth + Settings.Default.InsigniaGap;
+                                                    int x = 0;
+                                                    foreach (Icon icon in paradoxType.Icons)
+                                                    {
+                                                        icon.Bmp = ddsDatei.GetCustomBitmap(x);
+                                                        icon.BmpSource = ddsDatei.Bitmap2BitmapImage(icon.Bmp);
+                                                        x += Settings.Default.InsigniaWidth + Settings.Default.InsigniaGap;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    MessageBox.Show("Die Anzahl der Icons in der Grafikdatei " + completeGraphicsPath + " passt nicht mit der Anzahl Icons in " + completeConfigPath + " zusammen.");
                                                 }
                                             }
                                             else
                                             {
-                                                MessageBox.Show("Die Anzahl der Icons in der Grafikdatei " + completeGraphicsPath + " passt nicht mit der Anzahl Icons in " + completeConfigPath + " zusammen.");
+                                                MessageBox.Show("Division durch Null -.- ! Bitte eine Korrekte Breite bzw. Zwischenraum in den Einstellungen konfigurieren!");
                                             }
                                         }
                                         else
                                         {
-                                            MessageBox.Show("Division durch Null -.- ! Bitte eine Korrekte Breite bzw. Zwischenraum in den Einstellungen konfigurieren!");
+                                            MessageBox.Show("Die Grafikdatei " + completeGraphicsPath + " passt nicht mit den Einstellungen zusammen. (Der X-Wert der Grafik passt nicht.)");
                                         }
                                     }
                                     else
                                     {
-                                        MessageBox.Show("Die Grafikdatei " + completeGraphicsPath + " passt nicht mit den Einstellungen zusammen. (Der X-Wert der Grafik passt nicht.)");
+                                        MessageBox.Show("Die Grafikdatei " + completeGraphicsPath + " konnte nicht geladen werden.");
                                     }
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Die Grafikdatei " + completeGraphicsPath + " konnte nicht geladen werden.");
+                                    lblMeldung.Visibility = Visibility.Visible;
+                                    lblMeldung.Content = "Es wurden keine Daten für Armeen in der Konfigdatei gefunden!";
                                 }
                             }
                             else
                             {
                                 lblMeldung.Visibility = Visibility.Visible;
-                                lblMeldung.Content = "Es wurden keine Daten für Armeen in der Konfigdatei gefunden!";
+                                lblMeldung.Content = "Keine Grafikdatei für " + paradoxType.ParadoxCategory.ToString() + " vorhanden.";
                             }
                         }
-                        else
-                        {
-                            lblMeldung.Visibility = Visibility.Visible;
-                            lblMeldung.Content = "Keine Grafikdatei für " + paradoxType.ParadoxCategory.ToString() + " vorhanden.";
-                        }
+                    }
+                    else
+                    {
+#warning Hier vielleicht die EInstellungen automatisch aufrufen.
+                        MessageBox.Show($@"{completeGraphicsPath} wurde nicht gefunden. Bitte die Einstellungen überprüfen.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
 #warning Hier vielleicht die EInstellungen automatisch aufrufen.
-                    MessageBox.Show($@"{completeGraphicsPath} wurde nicht gefunden. Bitte die Einstellungen überprüfen.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($@"{completeConfigPath} wurde nicht gefunden. Bitte die Einstellungen überprüfen.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            else
+            catch(Exception err)
             {
-#warning Hier vielleicht die EInstellungen automatisch aufrufen.
-                MessageBox.Show($@"{completeConfigPath} wurde nicht gefunden. Bitte die Einstellungen überprüfen.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(err.Message, "Fehler :-(", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -270,16 +278,31 @@ namespace HOI4Tool
 
         private void dataGridInsignien_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if(dataGridInsignien.SelectedCells.Count == 1)
-            {
-                DataGridCellInfo cellInfo = dataGridInsignien.SelectedCells[0];
-                Row r = (Row)cellInfo.Item;
-                _currentSelectedIcon = r.Icons[cellInfo.Column.DisplayIndex];
-                gridIconProperties.DataContext = this._currentSelectedIcon;
+            try
+            { 
+                if (dataGridInsignien.SelectedCells.Count == 1)
+                {
+                    DataGridCellInfo cellInfo = dataGridInsignien.SelectedCells[0];
+                    Row r = (Row)cellInfo.Item;
+                    if(r.Icons[cellInfo.Column.DisplayIndex] != null)
+                    {
+                        _currentSelectedIcon = r.Icons[cellInfo.Column.DisplayIndex];
+                        gridIconProperties.DataContext = this._currentSelectedIcon;
+                    }
+                    else
+                    {
+                        throw new Exception("Es wurde versucht eine leere Zelle zu markieren!");
+                    }
+                }
+                else
+                {
+                    gridIconProperties.DataContext = null;
+                }
             }
-            else
+            catch (Exception err)
             {
-                gridIconProperties.DataContext = null;
+                MessageBox.Show(err.Message, "Fehler :-(", MessageBoxButton.OK, MessageBoxImage.Error);
+                dataGridInsignien.UnselectAllCells(); 
             }
         }
 
@@ -302,6 +325,55 @@ namespace HOI4Tool
             this._currentSelectedIcon.Availables[0].NOT[0].Tags.Add(listBoxAvailableTags.SelectedItem.ToString());
             gridIconProperties.DataContext = null;
             gridIconProperties.DataContext = this._currentSelectedIcon;
+        }
+
+        private void cmdExchange_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (dataGridInsignien.SelectedCells.Count == 2)
+                {
+                    ParadoxCategory typ = (ParadoxCategory)comboBoxTyp.SelectedIndex;
+
+#warning Hier noch ne Sicherung einbauen, falls es aus irgendeinem Grund mehere Gruppen gibt.
+                    // Hier wird das richtige Objekt vom Typ ParadixType gesucht, je nachdem welche Insignien
+                    // gerade barabeitet werden (Armee oder Armeegruppe oder Flotte...). Mit dem richtigen
+                    // ParadoxTyp-Objekt kann dann die richtige Iconliste bearbeitet werden.
+                    foreach (ParadoxType ptyp in armeeIcons.ParadoxTypes)
+                    {
+                        if (ptyp.ParadoxCategory == typ)
+                        {
+                            // Speichert die beiden Indizes der Icons, die miteinander getauscht werden sollen. 
+                            List<int> indizes = new List<int>();
+
+                            foreach (DataGridCellInfo cellInfo in dataGridInsignien.SelectedCells)
+                            {
+                                Row r = (Row)cellInfo.Item;
+                                indizes.Add(cellInfo.Column.DisplayIndex + 6 * r.No);
+                            }
+#warning Hier noch eine Art Transaktionssicherheit einbauen, falls es mittendrin einen Fehler gibt und ein Listenelement bereits gelöscht oder eingefügt wurde.
+                            ptyp.Icons.Insert(indizes[0], ptyp.Icons[indizes[1]]);
+                            ptyp.Icons.RemoveAt(indizes[1] + 1);
+
+                            ptyp.Icons.Insert(indizes[1] + 1, ptyp.Icons[indizes[0] + 1]);
+                            ptyp.Icons.RemoveAt(indizes[0] + 1);
+                        }
+                    }
+
+                    ComboBox_SelectionChanged(null, null); // Schade! Das mit der ObservableCollection klappt noch nicht ganz ohne explizite Aktualisierung :-(
+                }
+                else
+                {
+                    MessageBox.Show("Für diese Funktion müssen genau 2 Insignien markiert sein. (STRG + Mausklick) um mehrere auszuwählen.",
+                                    "Tauschen nicht möglich",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Exclamation);
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message, "Fehler :-(", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

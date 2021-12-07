@@ -55,7 +55,7 @@ namespace HOI4Tool
             get
             {
                 this._IconGrid.Clear();
-                int rowNo = 0;
+                int rowNo = 0;  // Es ist wichtig, dass hier mit 0 begonnen wird zu zählen. (siehe Insignieneditor.xaml.cs -> cmdExchange_Click(object sender, RoutedEventArgs e))
                 Row r = new Row(rowNo);
                 int anzahlSpalten = 6;
 
@@ -71,7 +71,17 @@ namespace HOI4Tool
                     }
                 }
 
-                if (r.Icons.Count > 0) this._IconGrid.Add(r); // Den Rest auch noch hinzufügen
+                if (r.Icons.Count > 0)
+                {
+                    // Den Rest der Zeile (Row) mit NULL auffüllen. Dies dient später dem einfacheren Umgang mit leeren Zellen.
+                    int emptyFields = anzahlSpalten - r.Icons.Count;
+                    for (int i = 0; i < emptyFields; i++)
+                    {
+                        r.Icons.Add(null);
+                    }                    
+                    
+                    this._IconGrid.Add(r); // Die letzte Zeile noch hinzufügen
+                }
 
                 return this._IconGrid;
             }
