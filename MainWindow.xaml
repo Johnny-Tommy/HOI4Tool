@@ -37,7 +37,7 @@
                 </MenuItem>
                 <MenuItem Header="_Insignieneditor" Click="MenuItemEditor_Click">
                     <MenuItem.Icon>
-                        <Image Source="Icons\Note pad.png" />
+                        <Image Source="Icons\InsigniaEditor.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
@@ -48,7 +48,7 @@
                 </MenuItem>
                 <MenuItem Header="_Exit" Click="MenuItemExit_Click">
                     <MenuItem.Icon>
-                        <Image Source="Icons\Restricted.png" />
+                        <Image Source="Icons\door_in.png" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>

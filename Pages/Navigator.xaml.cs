@@ -138,6 +138,7 @@ namespace HOI4Tool
 
         private void lblPfad_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            /*
             // Wenn SelectionUnit des DataGrids auf Cell eingestellt ist (SelectedItems ist dann immer NULL!!!)
             List<DDSFile> liste = new List<DDSFile>();
             
@@ -170,30 +171,7 @@ namespace HOI4Tool
                     }
                 }                
             }
-                      
-
-
-            //List<DDSFile> liste = new List<DDSFile>();
-            //foreach (object item in dataGridDDSFiles.SelectedItems)
-            //{
-            //    liste.Add(item as DDSFile);                
-            //}
-            //int index_1 = dataGridDDSFiles.Items.IndexOf(liste[0]);
-            //int index_2 = dataGridDDSFiles.Items.IndexOf(liste[1]);
-
-            //ddsListe.RemoveAt(index_1);
-            //ddsListe.Insert(index_1, liste[1]);
-            //ddsListe.RemoveAt(index_2);
-            //ddsListe.Insert(index_2, liste[0]);
-
-
-
-
-            //foreach (object item in dataGridDDSFiles.SelectedItems)
-            //{
-            //    DDSFile ddsfile = item as DDSFile;
-            //    MessageBox.Show(ddsfile.Save());
-            //}
+            */
         }
     }
 }

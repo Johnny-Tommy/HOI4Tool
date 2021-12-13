@@ -329,6 +329,19 @@ namespace HOI4Tool
 
         private void cmdExchange_Click(object sender, RoutedEventArgs e)
         {
+            //List<DDSFile> liste = new List<DDSFile>();
+            //foreach (object item in dataGridDDSFiles.SelectedItems)
+            //{
+            //    liste.Add(item as DDSFile);                
+            //}
+            //int index_1 = dataGridDDSFiles.Items.IndexOf(liste[0]);
+            //int index_2 = dataGridDDSFiles.Items.IndexOf(liste[1]);
+
+            //ddsListe.RemoveAt(index_1);
+            //ddsListe.Insert(index_1, liste[1]);
+            //ddsListe.RemoveAt(index_2);
+            //ddsListe.Insert(index_2, liste[0]);
+
             try
             {
                 if (dataGridInsignien.SelectedCells.Count == 2)

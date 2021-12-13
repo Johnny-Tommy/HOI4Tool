@@ -15,9 +15,9 @@
     <None Remove="Backgrounds\Bunker.png" />
     <None Remove="Backgrounds\Typex.png" />
     <None Remove="Icons\Configuration.png" />
-    <None Remove="Icons\Note pad.png" />
+    <None Remove="Icons\door_in.png" />
+    <None Remove="Icons\InsigniaEditor.png" />
     <None Remove="Icons\Picture.png" />
-    <None Remove="Icons\Restricted.png" />
     <None Remove="Icons\Tool.ico" />
   </ItemGroup>
 
@@ -38,9 +38,9 @@
     <Resource Include="Backgrounds\Bunker.png" />
     <Resource Include="Backgrounds\Typex.png" />
     <Resource Include="Icons\Configuration.png" />
-    <Resource Include="Icons\Note pad.png" />
+    <Resource Include="Icons\door_in.png" />
+    <Resource Include="Icons\InsigniaEditor.png" />
     <Resource Include="Icons\Picture.png" />
-    <Resource Include="Icons\Restricted.png" />
     <Resource Include="Icons\Tool.ico" />
   </ItemGroup>
 

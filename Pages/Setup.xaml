@@ -39,11 +39,20 @@
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
-                        
-                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label Content="Army-Icons Verzeichnis:" FontWeight="Bold" Width="160"/>
-                            <TextBox x:Name="txtPfad_ArmyIcon" Width="500" FontFamily="Courier New" Text="{Binding Path=PathArmyIcons}" Height="16" />
-                        </StackPanel>
+
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Army-Icons Verzeichnis:" FontWeight="Bold" />
+                            <TextBox Grid.Column="1" VerticalAlignment="Center" x:Name="txtPfad_ArmyIcon" FontFamily="Courier New" Text="{Binding Path=PathArmyIcons}" Height="16" Margin="0,0,10,0" />
+                            <Button Grid.Row="0" Grid.Column="2" x:Name="cmdOpenDirArmyIcons" HorizontalAlignment="Left" VerticalAlignment="Center" Content="öffnen" Margin="15,15,15,15" Width="70" Click="cmdOpenDirArmyIcons_Click" />
+                        </Grid>
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Konfigdatei:" FontWeight="Bold" Width="160"/>
                             <TextBox x:Name="txtFile_ArmyIconConfig" HorizontalAlignment="Center" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileArmyIconConfig}" Height="16" />
@@ -72,7 +81,7 @@
                             <Label Content="(selektiert)" FontWeight="Bold" Width="160"/>
                             <TextBox x:Name="txtFile_ArmyNavyIconGraphicsSelected" HorizontalAlignment="Left" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileNavyIconGraphicsSelected}" Height="16" />
                         </StackPanel>
-                        
+
                         <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label Content="Interface Verzeichnis:" FontWeight="Bold" Width="160"/>
                             <TextBox x:Name="txtPfad_Interface" Width="500" FontFamily="Courier New" Text="{Binding Path=PathInterface}" Height="16" />
@@ -89,7 +98,7 @@
 
                     </Grid>
                 </GroupBox>
-                
+
                 <GroupBox x:Name="grpBoxInsignien" Grid.Column="1" Grid.Row="0" Header=" Insignien " Margin="10,10,10,10">
                     <Grid x:Name="gridInsignien">
                         <Grid.ColumnDefinitions>
