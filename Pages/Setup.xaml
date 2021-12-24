@@ -7,6 +7,25 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="1300"
       Title="Setup">
+    <Page.Resources>
+        <Style TargetType="TextBox" x:Key="SetupTextBox">
+            <Setter Property="Background" Value="GhostWhite" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Width" Value="220" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="FontFamily" Value="Courier New" />
+        </Style>
+        <Style TargetType="Label" x:Key="SetupLabel">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Width" Value="170" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="0,0,0,0" />
+        </Style>
+    </Page.Resources>
     <Grid Margin="0,0,0,0">
         <Grid.Background>
             <ImageBrush ImageSource="/Backgrounds/Typex.png" Stretch="Fill" TileMode="None" Opacity="0.5" />
@@ -22,7 +41,7 @@
                     <!-- RowDefinition Height="40"/ -->
                 </Grid.RowDefinitions>
                 <GroupBox x:Name="grpBoxPfadeUndDateien" Grid.Column="0" Grid.Row="0" Header=" Pfade und Dateien " Margin="10,10,10,10">
-                    <Grid x:Name="gridPfadeUndDateien">
+                    <Grid x:Name="gridPfadeUndDateien" ShowGridLines="False">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
@@ -40,60 +59,225 @@
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0" Grid.Column="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="100" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="50"/>
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Army-Icons Verzeichnis:" FontWeight="Bold" />
-                            <TextBox Grid.Column="1" VerticalAlignment="Center" x:Name="txtPfad_ArmyIcon" FontFamily="Courier New" Text="{Binding Path=PathArmyIcons}" Height="16" Margin="0,0,10,0" />
-                            <Button Grid.Row="0" Grid.Column="2" x:Name="cmdOpenDirArmyIcons" HorizontalAlignment="Left" VerticalAlignment="Center" Content="öffnen" Margin="15,15,15,15" Width="70" Click="cmdOpenDirArmyIcons_Click" />
-                        </Grid>
-                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label Content="Konfigdatei:" FontWeight="Bold" Width="160"/>
-                            <TextBox x:Name="txtFile_ArmyIconConfig" HorizontalAlignment="Center" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileArmyIconConfig}" Height="16" />
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                            <Label Content="{Binding Path=Directories[0].LabelName}">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <TextBox Text="{Binding Path=Directories[0].CompletePath}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
+                                        <Setter Property="Width" Value="400" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Directories[0].Found}" Value="False">
+                                                <Setter Property="Background" Value="Orange" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <Button Grid.Row="0" 
+                                    Grid.Column="2" 
+                                    x:Name="cmdOpenDirArmyIcons" 
+                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center" 
+                                    Content="öffnen" 
+                                    Margin="15,15,15,15" 
+                                    Width="70" 
+                                    Click="cmdOpenDirArmyIcons_Click" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label Content="Army-Icons Grafikdatei:" FontWeight="Bold" Width="160"/>
-                            <TextBox x:Name="txtFile_ArmyIconGraphics" HorizontalAlignment="Center" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileArmyIconGraphics}" Height="16" />
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                            <Label Content="{Binding Path=Directories[0].Files[0].LabelName}">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <TextBox Text="{Binding Path=Directories[0].Files[0].Filename}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Directories[0].Files[0].Found}" Value="False">
+                                                <Setter Property="Background" Value="Orange" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label Content="(selektiert)" FontWeight="Bold" Width="160"/>
-                            <TextBox x:Name="txtFile_ArmyIconGraphicsSelected" HorizontalAlignment="Left" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileArmyIconGraphicsSelected}" Height="16" />
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
+                            <Label Content="{Binding Path=Directories[0].Files[1].LabelName}">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <TextBox Text="{Binding Path=Directories[0].Files[1].Filename}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Directories[0].Files[1].Found}" Value="False">
+                                                <Setter Property="Background" Value="Orange" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label Content="Group-Icons Grafikdatei:" FontWeight="Bold" Width="160"/>
-                            <TextBox x:Name="txtFile_ArmyGroupIconGraphics" HorizontalAlignment="Center" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileArmyGroupIconGraphics}" Height="16" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label Content="(selektiert)" FontWeight="Bold" Width="160"/>
-                            <TextBox x:Name="txtFile_ArmyGroupIconGraphicsSelected" Width="230" FontFamily="Courier New" Text="{Binding Path=FileArmyGroupIconGraphicsSelected}" Height="16" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label Content="Flotten-Icons Grafikdatei:" FontWeight="Bold" Width="160"/>
-                            <TextBox x:Name="txtFile_ArmyNavyIconGraphics" HorizontalAlignment="Center" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileNavyIconGraphics}" Height="16" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label Content="(selektiert)" FontWeight="Bold" Width="160"/>
-                            <TextBox x:Name="txtFile_ArmyNavyIconGraphicsSelected" HorizontalAlignment="Left" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileNavyIconGraphicsSelected}" Height="16" />
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0">
+                            <Label Content="{Binding Path=Directories[0].Files[2].LabelName}">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <TextBox Text="{Binding Path=Directories[0].Files[2].Filename}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Directories[0].Files[2].Found}" Value="False">
+                                                <Setter Property="Background" Value="Orange" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label Content="Interface Verzeichnis:" FontWeight="Bold" Width="160"/>
-                            <TextBox x:Name="txtPfad_Interface" Width="500" FontFamily="Courier New" Text="{Binding Path=PathInterface}" Height="16" />
+                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0">
+                            <Label Content="{Binding Path=Directories[0].Files[3].LabelName}">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <TextBox Text="{Binding Path=Directories[0].Files[3].Filename}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Directories[0].Files[3].Found}" Value="False">
+                                                <Setter Property="Background" Value="Orange" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label Content="GFX-Datei:" FontWeight="Bold" Width="160"/>
-                            <TextBox x:Name="txtFile_GFX" HorizontalAlignment="Left" Width="230" FontFamily="Courier New" VerticalAlignment="Center" Text="{Binding Path=FileTheatreSelector}" Height="16" />
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="0">
+                            <Label Content="{Binding Path=Directories[0].Files[4].LabelName}">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <TextBox Text="{Binding Path=Directories[0].Files[4].Filename}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Directories[0].Files[4].Found}" Value="False">
+                                                <Setter Property="Background" Value="Orange" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="0">
+                            <Label Content="{Binding Path=Directories[0].Files[5].LabelName}">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <TextBox Text="{Binding Path=Directories[0].Files[5].Filename}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Directories[0].Files[5].Found}" Value="False">
+                                                <Setter Property="Background" Value="Orange" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="0">
+                            <Label Content="{Binding Path=Directories[0].Files[6].LabelName}">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <TextBox Text="{Binding Path=Directories[0].Files[6].Filename}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Directories[0].Files[6].Found}" Value="False">
+                                                <Setter Property="Background" Value="Orange" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label Content="Backup Verzeichnis:" FontWeight="Bold" Width="160"/>
-                            <TextBox x:Name="txtPfad_Backup" Width="500" FontFamily="Courier New" Text="{Binding Path=PathBackup}" Height="16" />
+                        <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="0">
+                            <Label Content="{Binding Path=Directories[1].LabelName}">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <TextBox Text="{Binding Path=Directories[1].CompletePath}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
+                                        <Setter Property="Width" Value="400" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Directories[1].Found}" Value="False">
+                                                <Setter Property="Background" Value="Orange" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Row="9" Grid.Column="0">
+                            <Label Content="{Binding Path=Directories[1].Files[0].LabelName}">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <TextBox Text="{Binding Path=Directories[1].Files[0].Filename}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Directories[1].Files[0].Found}" Value="False">
+                                                <Setter Property="Background" Value="Orange" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="0">
+                            <Label Content="{Binding Path=Directories[2].LabelName}">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <TextBox Text="{Binding Path=Directories[2].CompletePath}">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
+                                        <Setter Property="Width" Value="400" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Directories[2].Found}" Value="False">
+                                                <Setter Property="Background" Value="Orange" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </StackPanel>
 
                     </Grid>
@@ -134,7 +318,14 @@
                 </GroupBox>
             </Grid>
         </GroupBox>
-        <Label Name="lblGespeichert" Content="" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40" FontFamily="Arial Black"/>
+        
+        <Label Name="lblGespeichert" 
+               Content="" 
+               VerticalAlignment="Center" 
+               HorizontalAlignment="Center" 
+               FontSize="20" 
+               FontFamily="Arial Black"/>
+        
         <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Bottom">
             <StackPanel.Background>
                 <SolidColorBrush Color="AliceBlue" Opacity="0.4"/>

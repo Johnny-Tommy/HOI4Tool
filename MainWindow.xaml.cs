@@ -27,12 +27,13 @@ namespace HOI4Tool
             try
             {
                 InitializeComponent();
+                
                 mainFrame.Source = new Uri("Pages\\Start.xaml", UriKind.Relative);                 
+                
                 if (GetType().Assembly.GetName().Version != null)
                 {
                     this.Title += " Testversion: " + GetType().Assembly.GetName().Version.ToString();
                 }
-
             }
             catch (Exception err)
             {

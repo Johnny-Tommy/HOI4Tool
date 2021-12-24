@@ -23,10 +23,28 @@ namespace HOI4Tool
     /// </summary>
     public partial class Setup : Page
     {
+        public FileManager fileManager = null;
+
         public Setup()
-        {          
+        {
+            if (fileManager == null)
+            {
+                fileManager = new FileManager();
+                fileManager.AddDirectory(Properties.Settings.Default.PathArmyIcons, "PathArmyIcons", "Army-Icons Verzeichnis:");
+                fileManager.Directories[0].AddFile(Properties.Settings.Default.FileArmyGroupIconGraphics, "FileArmyGroupIconGraphics", "Group-Icons Grafikdatei:");
+                fileManager.Directories[0].AddFile(Properties.Settings.Default.FileArmyGroupIconGraphicsSelected, "FileArmyGroupIconGraphicsSelected", "(selektiert)");
+                fileManager.Directories[0].AddFile(Properties.Settings.Default.FileArmyIconGraphics, "FileArmyIconGraphics", "Army-Icon Grafiken:");
+                fileManager.Directories[0].AddFile(Properties.Settings.Default.FileArmyIconGraphicsSelected, "FileArmyIconGraphicsSelected", "(selektiert)");
+                fileManager.Directories[0].AddFile(Properties.Settings.Default.FileNavyIconGraphics, "FileNavyIconGraphics", "Navy-Icon Grafiken:");
+                fileManager.Directories[0].AddFile(Properties.Settings.Default.FileNavyIconGraphicsSelected, "FileNavyIconGraphicsSelected", "(selektiert)");
+                fileManager.Directories[0].AddFile(Properties.Settings.Default.FileArmyIconConfig, "FileArmyIconConfig", "File-Army-Icon Konfig:");
+                fileManager.AddDirectory(Properties.Settings.Default.PathInterface, "PathInterface", "Interface Verzeichnis:");
+                fileManager.Directories[1].AddFile(Properties.Settings.Default.FileTheatreSelector, "FileTheatreSelector", "File-Theatre Konfig:");
+                fileManager.AddDirectory(Properties.Settings.Default.PathBackup, "PathBackup", "Backup Verzeichnis:");
+            }
+
             InitializeComponent();
-            gridPfadeUndDateien.DataContext = Settings.Default;
+            gridPfadeUndDateien.DataContext = fileManager;
             gridInsignien.DataContext = Settings.Default;
             lblSpeicherort.Content = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
             Settings.Default.SettingsSaving += Default_SettingsSaving;
@@ -51,76 +69,15 @@ namespace HOI4Tool
             }
         }
 
-        /// <summary>
-        /// Hier später noch eine elegantere Prüfung einbauen... :-/
-        /// </summary>
-        /// <param name="txtBox"></param>
-        /// <returns></returns>
-        private bool CheckFileOrDirectory(TextBox txtBox)
-        {
-            string pfad;
-
-            if(txtBox.Text.Contains('\\'))
-            {
-                if (Directory.Exists(txtBox.Text))
-                {
-                    txtBox.Background = Brushes.White;
-                    return true;
-                }
-                else
-                {
-                    txtBox.Background = Brushes.Orange;
-                    return false;
-                }
-            }
-            else
-            {
-                if(txtBox.Text.Contains(".dds") || txtBox.Text.Contains(".txt"))
-                {
-                    pfad = txtPfad_ArmyIcon.Text;
-                }
-                else
-                {
-                    pfad = txtPfad_Interface.Text;
-                }
-                
-                if (File.Exists(pfad + txtBox.Text))
-                {
-                    txtBox.Background = Brushes.White;
-                    return true;
-                }
-                else
-                {
-                    txtBox.Background = Brushes.Orange;
-                    return false;
-                }
-            }
-        }
-
         private async void Default_SettingsSaving(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            bool readyToSave = true;
-            
             cmdSpeichern.IsEnabled = false;
+            fileManager.CheckAll();
+#warning Hier noch ein INotification in der Filemanager Klasse implantieren?!
+            gridPfadeUndDateien.DataContext = null;
+            gridPfadeUndDateien.DataContext = fileManager;
 
-#warning Hier, falls möglich, eine elegantere Prüfung einbauen
-            // ********** Prüfungen ob Verzeichnisse und Dateien wirklich vorhanden sind und korrekte Integerwerte eingegeben worden sind **********
-            readyToSave = CheckFileOrDirectory(txtPfad_ArmyIcon);
-            readyToSave = CheckFileOrDirectory(txtFile_ArmyIconConfig);
-            readyToSave = CheckFileOrDirectory(txtFile_ArmyIconGraphics);
-            readyToSave = CheckFileOrDirectory(txtFile_ArmyIconGraphicsSelected);
-            readyToSave = CheckFileOrDirectory(txtFile_ArmyGroupIconGraphics);
-            readyToSave = CheckFileOrDirectory(txtFile_ArmyGroupIconGraphicsSelected);
-            readyToSave = CheckFileOrDirectory(txtFile_ArmyNavyIconGraphics);
-            readyToSave = CheckFileOrDirectory(txtFile_ArmyNavyIconGraphicsSelected);
-            readyToSave = CheckFileOrDirectory(txtPfad_Interface);
-            readyToSave = CheckFileOrDirectory(txtFile_GFX);
-            readyToSave = CheckFileOrDirectory(txtPfad_Backup);
-            readyToSave = CheckNumericFields(txtInsigniaGap);
-            readyToSave = CheckNumericFields(txtInsigniaX);
-            readyToSave = CheckNumericFields(txtInsigniaY);
-
-            if (readyToSave)
+            if (fileManager.IsCheckOk)
             {
                 Report report = new Report();
                 report.message = "Gespeichert!";
@@ -161,7 +118,7 @@ namespace HOI4Tool
 
         private void cmdSpeichern_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.Save();
+            fileManager.Save();
         }
 
         private void cmdOpenDirArmyIcons_Click(object sender, RoutedEventArgs e)
