@@ -121,17 +121,24 @@ namespace HOI4Tool
             fileManager.Save();
         }
 
-        private void cmdOpenDirArmyIcons_Click(object sender, RoutedEventArgs e)
+        private void OpenDir_Click(object sender, RoutedEventArgs e)
         {
             // <UseWindowsForms>true</UseWindowsForms> muss zusätzlich in die Projektdatei hinzugefügt werden -.-
             // Wird verwendet um auf die FolderBrowserDialog Klasse zugreifen zu können.
             System.Windows.Forms.FolderBrowserDialog folderDialog = new System.Windows.Forms.FolderBrowserDialog();
             folderDialog.Description = "Verzeichnis für Army-Icons wählen...";
             folderDialog.ShowNewFolderButton = false;
-
-            if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            Button button = (Button)sender;
+            if(Int32.TryParse(button.Tag.ToString(), out int dirIndex))
             {
-                Properties.Settings.Default.PathArmyIcons = folderDialog.SelectedPath + @"\";
+                if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    fileManager.Directories[dirIndex].CompletePath = folderDialog.SelectedPath;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Verzeichnisindex konnte nicht ermittelt werden. (" + button.Tag.ToString() +")");
             }
         }
     }

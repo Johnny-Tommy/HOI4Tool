@@ -123,6 +123,10 @@ namespace HOI4Tool
                 set
                 {
                     this._completePath = value;
+                    if (value.Substring(value.Length - 1, 1) != "\\")
+                    {
+                        this._completePath += "\\";
+                    }
                     PropertyInfo pi = Properties.Settings.Default.GetType().GetProperty(this._settingName);
                     pi.SetValue(Properties.Settings.Default, this._completePath);
                 }
