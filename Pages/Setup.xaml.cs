@@ -134,6 +134,9 @@ namespace HOI4Tool
                 if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     fileManager.Directories[dirIndex].CompletePath = folderDialog.SelectedPath;
+#warning Hier noch ein INotification in der Filemanager Klasse implantieren?!
+                    gridPfadeUndDateien.DataContext = null;
+                    gridPfadeUndDateien.DataContext = fileManager;
                 }
             }
             else
