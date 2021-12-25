@@ -28,8 +28,8 @@
         </Style>
         <Style TargetType="Button" x:Key="SetupButtonChooseDir">
             <Setter Property="Content" Value="..." />
-            <Setter Property="Width" Value="22" />
-            <Setter Property="Height" Value="22" />
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
             <Setter Property="Margin" Value="10,10,10,10" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -89,8 +89,7 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <!-- Der Tag gibt den Index der Directories im Filemanager-Objekt an -->
-                            <Button Click="OpenDir_Click" Tag="0">
+                            <Button Grid.Row="0" Grid.Column="2" Click="OpenDir_Click" Tag="0">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SetupButtonChooseDir}" />
                                 </Button.Style>
@@ -248,12 +247,6 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <!-- Der Tag gibt den Index der Directories im Filemanager-Objekt an -->
-                            <Button Click="OpenDir_Click" Tag="1">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SetupButtonChooseDir}" />
-                                </Button.Style>
-                            </Button>
                         </StackPanel>
                         
                         <StackPanel Orientation="Horizontal" Grid.Row="9" Grid.Column="0">
@@ -293,12 +286,6 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <!-- Der Tag gibt den Index der Directories im Filemanager-Objekt an -->
-                            <Button Click="OpenDir_Click" Tag="2">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource SetupButtonChooseDir}" />
-                                </Button.Style>
-                            </Button>
                         </StackPanel>
 
                     </Grid>
