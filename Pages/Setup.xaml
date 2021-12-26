@@ -36,6 +36,13 @@
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
+        <Style TargetType="Button" x:Key="SetupButton">
+            <Setter Property="Margin" Value="5,5,5,5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Height" Value="22" />
+        </Style>
     </Page.Resources>
     
     <Grid Margin="0,0,0,0">
@@ -50,7 +57,6 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="400*"/>
-                    <!-- RowDefinition Height="40"/ -->
                 </Grid.RowDefinitions>
                 <GroupBox x:Name="grpBoxPfadeUndDateien" Grid.Column="0" Grid.Row="0" Header=" Pfade und Dateien " Margin="10,10,10,10">
                     <Grid x:Name="gridPfadeUndDateien" ShowGridLines="False">
@@ -58,6 +64,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="50"/>
                             <RowDefinition Height="50"/>
@@ -89,7 +96,8 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <Button Grid.Row="0" Grid.Column="2" Click="OpenDir_Click" Tag="0">
+                            <!-- Der Tag gibt den Index in der Directoryliste des Filemanagers an. Der Pfad kann dann gezielt dort gespeichert werden. -->
+                            <Button Click="OpenDir_Click" Tag="0">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SetupButtonChooseDir}" />
                                 </Button.Style>
@@ -247,6 +255,12 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
+                            <!-- Der Tag gibt den Index in der Directoryliste des Filemanagers an. Der Pfad kann dann gezielt dort gespeichert werden. -->
+                            <Button Click="OpenDir_Click" Tag="1">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource SetupButtonChooseDir}" />
+                                </Button.Style>
+                            </Button>
                         </StackPanel>
                         
                         <StackPanel Orientation="Horizontal" Grid.Row="9" Grid.Column="0">
@@ -286,8 +300,28 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
+                            <!-- Der Tag gibt den Index in der Directoryliste des Filemanagers an. Der Pfad kann dann gezielt dort gespeichert werden. -->
+                            <Button Click="OpenDir_Click" Tag="2">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource SetupButtonChooseDir}" />
+                                </Button.Style>
+                            </Button>
                         </StackPanel>
 
+                        <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Left">
+                            <Label Content="Dateien sichern:">
+                                <Label.Style>
+                                    <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
+                                </Label.Style>
+                            </Label>
+                            <Button Content="Backup"
+                                    Click="cmdBackup_Click"
+                                    Style="{StaticResource SetupButton}" />
+                            <Button Content="Recovery"
+                                    Click="cmdRecovery_Click"
+                                    Style="{StaticResource SetupButton}" />
+                        </StackPanel>
+                        
                     </Grid>
                 </GroupBox>
 
@@ -326,14 +360,7 @@
                 </GroupBox>
             </Grid>
         </GroupBox>
-        
-        <Label Name="lblGespeichert" 
-               Content="" 
-               VerticalAlignment="Center" 
-               HorizontalAlignment="Center" 
-               FontSize="20" 
-               FontFamily="Arial Black"/>
-        
+              
         <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Bottom">
             <StackPanel.Background>
                 <SolidColorBrush Color="AliceBlue" Opacity="0.4"/>
@@ -341,6 +368,9 @@
             <Label Content="Speicherort der Konfiguration:" FontWeight="Medium" VerticalAlignment="Top" Height="26" Margin="0,0,0,0"></Label>
             <Label Content="##############################" FontWeight="Regular" Name="lblSpeicherort" VerticalAlignment="Top" Height="26" Margin="0,0,0,0"/>
         </StackPanel>
-        <Button Margin="5,5,5,5" Name="cmdSpeichern" Content="Speichern" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="cmdSpeichern_Click" Width="100" Height="20" />
+        <Button Name="cmdSpeichern" 
+                Content="Speichern"
+                Click="cmdSpeichern_Click"
+                Style="{StaticResource SetupButton}" />
     </Grid>
 </Page>

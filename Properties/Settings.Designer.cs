@@ -190,5 +190,29 @@ namespace HOI4Tool.Properties {
                 this["FileTheatreSelector"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsSetupOk {
+            get {
+                return ((bool)(this["IsSetupOk"]));
+            }
+            set {
+                this["IsSetupOk"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsBackupOk {
+            get {
+                return ((bool)(this["IsBackupOk"]));
+            }
+            set {
+                this["IsBackupOk"] = value;
+            }
+        }
     }
 }

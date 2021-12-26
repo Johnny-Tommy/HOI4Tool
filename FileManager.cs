@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 
 using System.Reflection;
+// u.a. INotifyPropertyChanged
+using System.ComponentModel;
+// u.a. CallerMemberName
+using System.Runtime.CompilerServices;
+using HOI4Tool.Properties;
 
 namespace HOI4Tool
 {
@@ -15,6 +20,49 @@ namespace HOI4Tool
         {
             this._directories = new List<Directory>();
             this._isCheckOk = false;
+        }
+
+
+        public bool Backup()
+        {
+            // Prüfen, ob es bereits ein Backup gibt. Für's erste ein simpler Verzeichnischeck.
+            List<string> unterVerzeichnisse = new List<string>(System.IO.Directory.EnumerateDirectories(Settings.Default.PathBackup));
+            if (unterVerzeichnisse.Count == 0)
+            {
+                // Keine Verzeichnisse gefunden. Backup starten...
+                string backupPathComplete = Settings.Default.PathBackup + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + "\\";
+                System.IO.Directory.CreateDirectory(backupPathComplete);
+                foreach(Directory dir in this._directories)
+                {
+                    foreach(File datei in dir.Files)
+                    {
+                        System.IO.File.Copy(dir.CompletePath + datei.Filename, backupPathComplete + datei.Filename);
+                    }
+                }
+                System.Windows.MessageBox.Show("Die Dateien wurden im Verzeichnis " + backupPathComplete + " gesichert.", 
+                                                "Backup komplett",
+                                                System.Windows.MessageBoxButton.OK,
+                                                System.Windows.MessageBoxImage.Information);
+                return true;
+            }
+            else if(unterVerzeichnisse.Count == 1)
+            {
+                System.Windows.MessageBox.Show("Es gibt bereits ein Backup im Verzeichnis: " + Settings.Default.PathBackup,
+                                                "Backup vorhanden",
+                                                System.Windows.MessageBoxButton.OK,
+                                                System.Windows.MessageBoxImage.Information);
+                // Prüfen, ob alle Dateien vorhanden sind
+                return true;
+            }
+            else
+            {
+#warning Hier nicht eine eigene Exception einbauen für eine weitere Fehlerbehandlung...
+                System.Windows.MessageBox.Show("Es gibt mehr als ein Backupverzeichnis!", 
+                                                "Fehler", 
+                                                System.Windows.MessageBoxButton.OK, 
+                                                System.Windows.MessageBoxImage.Error);
+                return false;
+            }
         }
 
         public void AddDirectory(string absolutePath, string settingname, string labelname)
@@ -51,7 +99,8 @@ namespace HOI4Tool
         /// <summary>
         /// Prüft, ob alle Verzeichnisse und zugehörigen Dateien gefunden werden.
         /// Wenn ein Objekt nicht gefunden werden kann, wird das jeweilige found-Flag 
-        /// auf false gesetzt.
+        /// auf false gesetzt. Gibt nur true zurück, wenn alle Dateien und Verzeichnisse
+        /// gefunden worden sind.
         /// </summary>
         public bool CheckAll()
         {
@@ -69,11 +118,11 @@ namespace HOI4Tool
             // Wenn eine einzige Datei / Verzeichnis nicht gefunden wurde, stimmt
             // die gesamte Prüfung nicht. (Hier sollte also nicht gespeichert werden.)
             this._isCheckOk = tmp;
-            
+
             return tmp;
         }
 
-        public class Directory
+        public class Directory : INotifyPropertyChanged
         {
             private string _settingName;
             private string _labelName;
@@ -88,6 +137,13 @@ namespace HOI4Tool
                 this._labelName = labelName;
                 this._files = new List<File>();
                 this._found = true;
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected virtual void OnPropertyChanged([CallerMemberName] string name = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
 
             public bool Found
@@ -129,6 +185,8 @@ namespace HOI4Tool
                     }
                     PropertyInfo pi = Properties.Settings.Default.GetType().GetProperty(this._settingName);
                     pi.SetValue(Properties.Settings.Default, this._completePath);
+                    // XAML-Bindingengine melden, dass sich die Daten geändert haben.
+                    OnPropertyChanged();
                 }
             } 
 
@@ -160,7 +218,7 @@ namespace HOI4Tool
             }
         }
 
-        public class File
+        public class File : INotifyPropertyChanged
         {
             private string _fileName;
             private string _settingName;
@@ -175,6 +233,13 @@ namespace HOI4Tool
                 this._found = true;
             }
 
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected virtual void OnPropertyChanged([CallerMemberName] string name = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
+
             public string Filename
             {
                 get
@@ -185,7 +250,9 @@ namespace HOI4Tool
                 {
                     this._fileName = value;
                     PropertyInfo pi = Properties.Settings.Default.GetType().GetProperty(this._settingName);
-                    pi.SetValue(Properties.Settings.Default, this._fileName);                    
+                    pi.SetValue(Properties.Settings.Default, this._fileName);
+                    // XAML-Bindingengine melden, dass sich die Daten geändert haben.
+                    OnPropertyChanged();
                 }
             }
 

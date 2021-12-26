@@ -9,7 +9,9 @@ using System.Windows.Media.Imaging;
 // Stellt u.a. die Bitmap Klasse zur Verfügung.
 using System.Drawing;
 
+// u.a. INotifyPropertyChanged
 using System.ComponentModel;
+// u.a. CallerMemberName
 using System.Runtime.CompilerServices;
 
 namespace HOI4Tool
@@ -75,7 +77,7 @@ namespace HOI4Tool
                 }
 
                 // XAML-Bindingengine melden, dass sich die Daten geändert haben.
-                OnPropertyChanged(); System.Windows.MessageBox.Show("OnPropertyChanged() Icons");
+                OnPropertyChanged();
             }
         }
 

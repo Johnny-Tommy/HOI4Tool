@@ -29,106 +29,112 @@ namespace HOI4Tool
         public Insignieneditor()
         {
 #warning Backupfunktion muss noch implantiert werden!
-            InitializeComponent();
-
+            InitializeComponent();            
 
             try
             {
-                // Erst einmal Army-Icon-Datei von Paradox einlesen
-                string completeConfigPath = Settings.Default.PathArmyIcons + Settings.Default.FileArmyIconConfig;
-                string completeGraphicsPath = Settings.Default.PathArmyIcons + Settings.Default.FileArmyIconGraphics;
-
-                if (File.Exists(completeConfigPath))
+                if(Settings.Default.IsSetupOk)
                 {
-                    if (File.Exists(completeGraphicsPath))
+                    // Erst einmal Army-Icon-Datei von Paradox einlesen
+                    string completeConfigPath = Settings.Default.PathArmyIcons + Settings.Default.FileArmyIconConfig;
+                    string completeGraphicsPath = Settings.Default.PathArmyIcons + Settings.Default.FileArmyIconGraphics;
+
+                    if (File.Exists(completeConfigPath))
                     {
-                        // *******************************************************************
-                        // ********** Paradox Konfigurationsdatei komplett einlesen ********** 
-                        // *******************************************************************
-                        using (FileStream fs = new FileStream(completeConfigPath, FileMode.Open))
+                        if (File.Exists(completeGraphicsPath))
                         {
-                            armeeIcons = Pdoxcl2Sharp.ParadoxParser.Parse(fs, new ArmyIconsTxt());
-                        }
-
-                        // *********************************************************
-                        // ********** Paradox GFX-Datei komplett einlesen ********** 
-                        // *********************************************************
-                        using (FileStream fs = new FileStream(Settings.Default.PathInterface + Settings.Default.FileTheatreSelector, FileMode.Open))
-                        {
-                            theatreSelectorGFX = Pdoxcl2Sharp.ParadoxParser.Parse(fs, new SpriteTypes());
-                        }
-
-                        // ***********************************************************************************************
-                        // ********** In die Konfigurationsstruktur werden nun die zugehörigen Grafiken geladen ********** 
-                        // ***********************************************************************************************
-                        foreach (ParadoxType paradoxType in armeeIcons.ParadoxTypes)
-                        {
-                            if (!string.IsNullOrEmpty(paradoxType.Grafikdateiname))
+                            // *******************************************************************
+                            // ********** Paradox Konfigurationsdatei komplett einlesen ********** 
+                            // *******************************************************************
+                            using (FileStream fs = new FileStream(completeConfigPath, FileMode.Open))
                             {
-                                if (paradoxType.Icons.Count > 0)
+                                armeeIcons = Pdoxcl2Sharp.ParadoxParser.Parse(fs, new ArmyIconsTxt());
+                            }
+
+                            // *********************************************************
+                            // ********** Paradox GFX-Datei komplett einlesen ********** 
+                            // *********************************************************
+                            using (FileStream fs = new FileStream(Settings.Default.PathInterface + Settings.Default.FileTheatreSelector, FileMode.Open))
+                            {
+                                theatreSelectorGFX = Pdoxcl2Sharp.ParadoxParser.Parse(fs, new SpriteTypes());
+                            }
+
+                            // ***********************************************************************************************
+                            // ********** In die Konfigurationsstruktur werden nun die zugehörigen Grafiken geladen ********** 
+                            // ***********************************************************************************************
+                            foreach (ParadoxType paradoxType in armeeIcons.ParadoxTypes)
+                            {
+                                if (!string.IsNullOrEmpty(paradoxType.Grafikdateiname))
                                 {
-                                    // zugehörige Grafikdatei laden
-                                    DDSFile ddsDatei = new DDSFile(Settings.Default.PathArmyIcons, paradoxType.Grafikdateiname);
-                                    if (ddsDatei.Status == "OK")
+                                    if (paradoxType.Icons.Count > 0)
                                     {
-                                        if (ddsDatei.HeightInPixel == Settings.Default.InsigniaHeight)
+                                        // zugehörige Grafikdatei laden
+                                        DDSFile ddsDatei = new DDSFile(Settings.Default.PathArmyIcons, paradoxType.Grafikdateiname);
+                                        if (ddsDatei.Status == "OK")
                                         {
-                                            int x2 = Settings.Default.InsigniaWidth + Settings.Default.InsigniaGap;
-                                            if (x2 > 0)
+                                            if (ddsDatei.HeightInPixel == Settings.Default.InsigniaHeight)
                                             {
-                                                if ((ddsDatei.WidthInPixel / x2) == paradoxType.Icons.Count)
+                                                int x2 = Settings.Default.InsigniaWidth + Settings.Default.InsigniaGap;
+                                                if (x2 > 0)
                                                 {
-                                                    int x = 0;
-                                                    foreach (Icon icon in paradoxType.Icons)
+                                                    if ((ddsDatei.WidthInPixel / x2) == paradoxType.Icons.Count)
                                                     {
-                                                        icon.Bmp = ddsDatei.GetCustomBitmap(x);
-                                                        icon.BmpSource = ddsDatei.Bitmap2BitmapImage(icon.Bmp);
-                                                        x += Settings.Default.InsigniaWidth + Settings.Default.InsigniaGap;
+                                                        int x = 0;
+                                                        foreach (Icon icon in paradoxType.Icons)
+                                                        {
+                                                            icon.Bmp = ddsDatei.GetCustomBitmap(x);
+                                                            icon.BmpSource = ddsDatei.Bitmap2BitmapImage(icon.Bmp);
+                                                            x += Settings.Default.InsigniaWidth + Settings.Default.InsigniaGap;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        MessageBox.Show("Die Anzahl der Icons in der Grafikdatei " + completeGraphicsPath + " passt nicht mit der Anzahl Icons in " + completeConfigPath + " zusammen.");
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    MessageBox.Show("Die Anzahl der Icons in der Grafikdatei " + completeGraphicsPath + " passt nicht mit der Anzahl Icons in " + completeConfigPath + " zusammen.");
+                                                    MessageBox.Show("Division durch Null -.- ! Bitte eine Korrekte Breite bzw. Zwischenraum in den Einstellungen konfigurieren!");
                                                 }
                                             }
                                             else
                                             {
-                                                MessageBox.Show("Division durch Null -.- ! Bitte eine Korrekte Breite bzw. Zwischenraum in den Einstellungen konfigurieren!");
+                                                MessageBox.Show("Die Grafikdatei " + completeGraphicsPath + " passt nicht mit den Einstellungen zusammen. (Der X-Wert der Grafik passt nicht.)");
                                             }
                                         }
                                         else
                                         {
-                                            MessageBox.Show("Die Grafikdatei " + completeGraphicsPath + " passt nicht mit den Einstellungen zusammen. (Der X-Wert der Grafik passt nicht.)");
+                                            MessageBox.Show("Die Grafikdatei " + completeGraphicsPath + " konnte nicht geladen werden.");
                                         }
                                     }
                                     else
                                     {
-                                        MessageBox.Show("Die Grafikdatei " + completeGraphicsPath + " konnte nicht geladen werden.");
+                                        lblMeldung.Visibility = Visibility.Visible;
+                                        lblMeldung.Content = "Es wurden keine Daten für Armeen in der Konfigdatei gefunden!";
                                     }
                                 }
                                 else
                                 {
                                     lblMeldung.Visibility = Visibility.Visible;
-                                    lblMeldung.Content = "Es wurden keine Daten für Armeen in der Konfigdatei gefunden!";
+                                    lblMeldung.Content = "Keine Grafikdatei für " + paradoxType.ParadoxCategory.ToString() + " vorhanden.";
                                 }
                             }
-                            else
-                            {
-                                lblMeldung.Visibility = Visibility.Visible;
-                                lblMeldung.Content = "Keine Grafikdatei für " + paradoxType.ParadoxCategory.ToString() + " vorhanden.";
-                            }
+                        }
+                        else
+                        {
+#warning Hier vielleicht die EInstellungen automatisch aufrufen.
+                            MessageBox.Show($@"{completeGraphicsPath} wurde nicht gefunden. Bitte die Einstellungen überprüfen.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                     else
                     {
 #warning Hier vielleicht die EInstellungen automatisch aufrufen.
-                        MessageBox.Show($@"{completeGraphicsPath} wurde nicht gefunden. Bitte die Einstellungen überprüfen.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show($@"{completeConfigPath} wurde nicht gefunden. Bitte die Einstellungen überprüfen.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-#warning Hier vielleicht die EInstellungen automatisch aufrufen.
-                    MessageBox.Show($@"{completeConfigPath} wurde nicht gefunden. Bitte die Einstellungen überprüfen.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Bevor diese Funktion verwendet werden kann, muss das Setup konfiguriert und gespeichert werden.", "Setup noch nicht geprüft.", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch(Exception err)

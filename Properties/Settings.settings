@@ -44,5 +44,11 @@
     <Setting Name="FileTheatreSelector" Type="System.String" Scope="User">
       <Value Profile="(Default)">theatreselector.gfx</Value>
     </Setting>
+    <Setting Name="IsSetupOk" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IsBackupOk" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -24,7 +24,7 @@ namespace HOI4Tool
     public partial class Setup : Page
     {
         public FileManager fileManager = null;
-
+        
         public Setup()
         {
             if (fileManager == null)
@@ -69,51 +69,39 @@ namespace HOI4Tool
             }
         }
 
-        private async void Default_SettingsSaving(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Default_SettingsSaving(object sender, System.ComponentModel.CancelEventArgs e)
         {
             cmdSpeichern.IsEnabled = false;
-            fileManager.CheckAll();
-#warning Hier noch ein INotification in der Filemanager Klasse implantieren?!
+
+#warning Hier klappt die Kommunikation des OnPropertyChange() Ereignisses noch nicht :-( (Notlösung siehe unten)
             gridPfadeUndDateien.DataContext = null;
             gridPfadeUndDateien.DataContext = fileManager;
 
+            fileManager.CheckAll();
+
             if (fileManager.IsCheckOk)
             {
-                Report report = new Report();
-                report.message = "Gespeichert!";
-                report.visible = Visibility.Visible;
-                Action<Report> actionUpdateLabel = ShowStatus;
-                IProgress<Report> progressUpdateLabel = new Progress<Report>(actionUpdateLabel);
-                await Task.Run(() =>
-                {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        report.brush = i % 2 == 0 ? Brushes.White : Brushes.LightGreen;
-                        progressUpdateLabel.Report(report);
-                        System.Threading.Thread.Sleep(100);
-                    }
-
-                    report.visible = Visibility.Hidden;
-                    progressUpdateLabel.Report(report);
-                });
+                Settings.Default.IsSetupOk = true;
+                MessageBox.Show("Dateien und Verzeichnisse wurden geprüft. Setup gespeichert!", 
+                                "Gespeichert", 
+                                MessageBoxButton.OK, 
+                                MessageBoxImage.Information);
             }
             else
             {
                 e.Cancel = true;
+                Settings.Default.IsSetupOk = false;
                 MessageBox.Show("Ein oder mehrere Dateien / Verzeichnisse sind nicht vorhanden oder es wurden falsche Pixeldaten eingegeben. Bitte die Einstellungen überprüfen! Es wird nicht gespeichert.", 
                                 "Speichern fehlgeschlagen", 
                                 MessageBoxButton.OK, 
                                 MessageBoxImage.Warning);
             }
 
-            cmdSpeichern.IsEnabled = true;
-        }
+#warning Hier klappt die Kommunikation des OnPropertyChange() Ereignisses noch nicht :-( (Notlösung siehe unten)
+            gridPfadeUndDateien.DataContext = null;
+            gridPfadeUndDateien.DataContext = fileManager;
 
-        private void ShowStatus(Report report)
-        {
-            lblGespeichert.Content = report.message;
-            lblGespeichert.Visibility = report.visible;
-            lblGespeichert.Foreground = report.brush;
+            cmdSpeichern.IsEnabled = true;
         }
 
         private void cmdSpeichern_Click(object sender, RoutedEventArgs e)
@@ -140,6 +128,16 @@ namespace HOI4Tool
             {
                 MessageBox.Show("Verzeichnisindex konnte nicht ermittelt werden. (" + button.Tag.ToString() +")");
             }
+        }
+
+        private void cmdBackup_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.IsBackupOk = fileManager.Backup();
+        }
+
+        private void cmdRecovery_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

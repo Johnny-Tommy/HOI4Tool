@@ -34,6 +34,8 @@ namespace HOI4Tool
                 {
                     this.Title += " Testversion: " + GetType().Assembly.GetName().Version.ToString();
                 }
+
+                
             }
             catch (Exception err)
             {
