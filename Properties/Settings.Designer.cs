@@ -25,7 +25,7 @@ namespace HOI4Tool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("d:\\gfx\\army_icons\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hearts of Iron IV\\gfx\\army_icons\\")]
         public string PathArmyIcons {
             get {
                 return ((string)(this["PathArmyIcons"]));
@@ -37,7 +37,7 @@ namespace HOI4Tool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("d:\\backup\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\backup\\")]
         public string PathBackup {
             get {
                 return ((string)(this["PathBackup"]));
@@ -169,7 +169,7 @@ namespace HOI4Tool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("d:\\interface\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hearts of Iron IV\\interface\\")]
         public string PathInterface {
             get {
                 return ((string)(this["PathInterface"]));

@@ -371,6 +371,7 @@
         <Button Name="cmdSpeichern" 
                 Content="Speichern"
                 Click="cmdSpeichern_Click"
+                VerticalAlignment="Bottom"
                 Style="{StaticResource SetupButton}" />
     </Grid>
 </Page>

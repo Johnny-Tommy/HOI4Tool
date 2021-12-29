@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="PathArmyIcons" Type="System.String" Scope="User">
-      <Value Profile="(Default)">d:\gfx\army_icons\</Value>
+      <Value Profile="(Default)">C:\Program Files (x86)\Steam\steamapps\common\Hearts of Iron IV\gfx\army_icons\</Value>
     </Setting>
     <Setting Name="PathBackup" Type="System.String" Scope="User">
-      <Value Profile="(Default)">d:\backup\</Value>
+      <Value Profile="(Default)">C:\backup\</Value>
     </Setting>
     <Setting Name="InsigniaGap" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
@@ -39,7 +39,7 @@
       <Value Profile="(Default)">navy_selected_icons.dds</Value>
     </Setting>
     <Setting Name="PathInterface" Type="System.String" Scope="User">
-      <Value Profile="(Default)">d:\interface\</Value>
+      <Value Profile="(Default)">C:\Program Files (x86)\Steam\steamapps\common\Hearts of Iron IV\interface\</Value>
     </Setting>
     <Setting Name="FileTheatreSelector" Type="System.String" Scope="User">
       <Value Profile="(Default)">theatreselector.gfx</Value>

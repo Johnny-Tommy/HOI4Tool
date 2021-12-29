@@ -25,41 +25,53 @@ namespace HOI4Tool
 
         public bool Backup()
         {
-            // Prüfen, ob es bereits ein Backup gibt. Für's erste ein simpler Verzeichnischeck.
-            List<string> unterVerzeichnisse = new List<string>(System.IO.Directory.EnumerateDirectories(Settings.Default.PathBackup));
-            if (unterVerzeichnisse.Count == 0)
+            try
             {
-                // Keine Verzeichnisse gefunden. Backup starten...
-                string backupPathComplete = Settings.Default.PathBackup + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + "\\";
-                System.IO.Directory.CreateDirectory(backupPathComplete);
-                foreach(Directory dir in this._directories)
+                // Prüfen, ob es bereits ein Backup gibt. Für's erste ein simpler Verzeichnischeck.
+                List<string> unterVerzeichnisse = new List<string>(System.IO.Directory.EnumerateDirectories(Settings.Default.PathBackup));
+                if (unterVerzeichnisse.Count == 0)
                 {
-                    foreach(File datei in dir.Files)
+                    // Keine Verzeichnisse gefunden. Backup starten...
+                    string backupPathComplete = Settings.Default.PathBackup + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + "\\";
+                    System.IO.Directory.CreateDirectory(backupPathComplete);
+                    foreach (Directory dir in this._directories)
                     {
-                        System.IO.File.Copy(dir.CompletePath + datei.Filename, backupPathComplete + datei.Filename);
+                        foreach (File datei in dir.Files)
+                        {
+                            System.IO.File.Copy(dir.CompletePath + datei.Filename, backupPathComplete + datei.Filename);
+                        }
                     }
+                    System.Windows.MessageBox.Show("Die Dateien wurden im Verzeichnis " + backupPathComplete + " gesichert.",
+                                                    "Backup komplett",
+                                                    System.Windows.MessageBoxButton.OK,
+                                                    System.Windows.MessageBoxImage.Information);
+                    return true;
                 }
-                System.Windows.MessageBox.Show("Die Dateien wurden im Verzeichnis " + backupPathComplete + " gesichert.", 
-                                                "Backup komplett",
-                                                System.Windows.MessageBoxButton.OK,
-                                                System.Windows.MessageBoxImage.Information);
-                return true;
+                else if (unterVerzeichnisse.Count == 1)
+                {
+                    System.Windows.MessageBox.Show("Es gibt bereits ein Backup im Verzeichnis: " + Settings.Default.PathBackup,
+                                                    "Backup vorhanden",
+                                                    System.Windows.MessageBoxButton.OK,
+                                                    System.Windows.MessageBoxImage.Information);
+                    // Prüfen, ob alle Dateien vorhanden sind
+                    return true;
+                }
+                else
+                {
+#warning Hier nicht eine eigene Exception einbauen für eine weitere Fehlerbehandlung...
+                    System.Windows.MessageBox.Show("Es gibt mehr als ein Backupverzeichnis!",
+                                                    "Fehler",
+                                                    System.Windows.MessageBoxButton.OK,
+                                                    System.Windows.MessageBoxImage.Error);
+                    return false;
+                }
             }
-            else if(unterVerzeichnisse.Count == 1)
-            {
-                System.Windows.MessageBox.Show("Es gibt bereits ein Backup im Verzeichnis: " + Settings.Default.PathBackup,
-                                                "Backup vorhanden",
-                                                System.Windows.MessageBoxButton.OK,
-                                                System.Windows.MessageBoxImage.Information);
-                // Prüfen, ob alle Dateien vorhanden sind
-                return true;
-            }
-            else
+            catch(Exception err)
             {
 #warning Hier nicht eine eigene Exception einbauen für eine weitere Fehlerbehandlung...
-                System.Windows.MessageBox.Show("Es gibt mehr als ein Backupverzeichnis!", 
-                                                "Fehler", 
-                                                System.Windows.MessageBoxButton.OK, 
+                System.Windows.MessageBox.Show(err.Message,
+                                                "Fehler",
+                                                System.Windows.MessageBoxButton.OK,
                                                 System.Windows.MessageBoxImage.Error);
                 return false;
             }
