@@ -29,12 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.Toolkit.HighPerformance">
-      <HintPath>..\WPF-Projekte\HOI4Tool\bin\Release\netcoreapp3.1\Microsoft.Toolkit.HighPerformance.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Backgrounds\Bunker.png" />
     <Resource Include="Backgrounds\Typex.png" />
     <Resource Include="Icons\Configuration.png" />
