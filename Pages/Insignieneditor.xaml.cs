@@ -341,19 +341,6 @@ namespace HOI4Tool
 
         private void cmdExchange_Click(object sender, RoutedEventArgs e)
         {
-            //List<DDSFile> liste = new List<DDSFile>();
-            //foreach (object item in dataGridDDSFiles.SelectedItems)
-            //{
-            //    liste.Add(item as DDSFile);                
-            //}
-            //int index_1 = dataGridDDSFiles.Items.IndexOf(liste[0]);
-            //int index_2 = dataGridDDSFiles.Items.IndexOf(liste[1]);
-
-            //ddsListe.RemoveAt(index_1);
-            //ddsListe.Insert(index_1, liste[1]);
-            //ddsListe.RemoveAt(index_2);
-            //ddsListe.Insert(index_2, liste[0]);
-
             try
             {
                 if (dataGridInsignien.SelectedCells.Count == 2)
@@ -361,7 +348,7 @@ namespace HOI4Tool
                     ParadoxCategory typ = (ParadoxCategory)comboBoxTyp.SelectedIndex;
 
 #warning Hier noch ne Sicherung einbauen, falls es aus irgendeinem Grund mehere Gruppen gibt.
-                    // Hier wird das richtige Objekt vom Typ ParadixType gesucht, je nachdem welche Insignien
+                    // Hier wird das richtige Objekt vom Typ ParadoxType gesucht, je nachdem welche Insignien
                     // gerade barabeitet werden (Armee oder Armeegruppe oder Flotte...). Mit dem richtigen
                     // ParadoxTyp-Objekt kann dann die richtige Iconliste bearbeitet werden.
                     foreach (ParadoxType ptyp in armeeIcons.ParadoxTypes)
@@ -373,9 +360,19 @@ namespace HOI4Tool
 
                             foreach (DataGridCellInfo cellInfo in dataGridInsignien.SelectedCells)
                             {
-                                Row r = (Row)cellInfo.Item;
-                                indizes.Add(cellInfo.Column.DisplayIndex + 6 * r.No);
+                                Row row = (Row)cellInfo.Item;
+                                // Berechnet den Index in der Icon-Liste. Hier stehen alle Icons, die
+                                // im Grid angezeigt in Reihe.
+                                indizes.Add(cellInfo.Column.DisplayIndex + 6 * row.No);
                             }
+
+                            // Die beiden Indizes aufsteigend sortieren, damit der Austausch (siehe unten)
+                            // funktioniert. Es wird davon ausgegangen, dass zuerst das Icon mit dem kleineren
+                            // Index ausgewählt wurde. Dies führt aber ohne eine Sortierung zu einem
+                            // fehlerhaften Tausch der Icons, wenn zuerst ein Icon mit höherem Index
+                            // ausgewählt wird.
+                            indizes.Sort();
+
 #warning Hier noch eine Art Transaktionssicherheit einbauen, falls es mittendrin einen Fehler gibt und ein Listenelement bereits gelöscht oder eingefügt wurde.
                             ptyp.Icons.Insert(indizes[0], ptyp.Icons[indizes[1]]);
                             ptyp.Icons.RemoveAt(indizes[1] + 1);
