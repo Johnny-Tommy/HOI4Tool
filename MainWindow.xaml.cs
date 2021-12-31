@@ -14,6 +14,18 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using System.Drawing;
+using System.Reflection;
+
+[assembly: AssemblyProductAttribute("HOI4-Tool")]
+// Das ist die Programmversion (auch unter Einstellungen->Details der EXE-Datei zu sehen)
+// Dies ist noch eine Testversion. Deshalb fangen wir hier mit 0.1 an :-)
+[assembly: AssemblyFileVersionAttribute("0.1.0.0")]
+// Die Version wird nur bei Assemblys mit starkem Namen überprüft.
+// Diese ist dann relevant für die Assemblies die diese nutzen!
+[assembly: AssemblyVersionAttribute("1.0.*")]
+[assembly: AssemblyDescription("A little modding tool for the nice game Hearts of Iron IV from Paradox Interactive.")]
+[assembly: AssemblyInformationalVersion("Testversion")]
+[assembly: AssemblyCopyright("Johannes Thom")]
 
 namespace HOI4Tool
 {
@@ -26,50 +38,18 @@ namespace HOI4Tool
         {
             try
             {
+                CustomAssemblyInfo info = new CustomAssemblyInfo();
+                Application.Current.Properties["Info"] = info;
                 InitializeComponent();
-                
-                mainFrame.Source = new Uri("Pages\\Start.xaml", UriKind.Relative);                 
-                
-                if (GetType().Assembly.GetName().Version != null)
-                {
-                    this.Title += " Testversion: " + GetType().Assembly.GetName().Version.ToString();
-                }
-
-                
+                Hauptfenster.DataContext = info;
+                mainFrame.DataContext = (CustomAssemblyInfo)Application.Current.Properties["Info"];
+                mainFrame.Source = new Uri("Pages\\Start.xaml", UriKind.Relative);
             }
             catch (Exception err)
             {
                 MessageBox.Show(err.Message, "Fehler in der Anwendung :-(", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        //private void UpdateBackground(Report report)
-        //{            
-        //    mainFrame.Background = report.brush;
-        //}
-
-        //private async void BGAnimation()
-        //{
-        //    Report report = new Report();
-        //    report.brush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0)); 
-        //    Action<Report> actionUpdateBackground = UpdateBackground;
-        //    IProgress<Report> progressUpdateLabel = new Progress<Report>(actionUpdateBackground);
-        //    await Task.Run(() =>
-        //    {
-        //        int blau = 0;
-        //        for (int i = 0; i < 100; i++)
-        //        {
-        //            if (blau < 255)
-        //            {
-        //                blau += 5;
-        //            }
-        //            report.brush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, (byte)blau));
-        //            progressUpdateLabel.Report(report);
-        //            System.Threading.Thread.Sleep(300);
-        //        }
-        //        progressUpdateLabel.Report(report);
-        //    });
-        //}
 
         private void MenuItemWelcome_Click(object sender, RoutedEventArgs e)
         {

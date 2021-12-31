@@ -21,6 +21,7 @@ namespace HOI4Tool
         public Start()
         {
             InitializeComponent();
+            gridStart.DataContext = (CustomAssemblyInfo)Application.Current.Properties["Info"];
         }
     }
 }

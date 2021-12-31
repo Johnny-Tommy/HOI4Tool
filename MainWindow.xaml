@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HOI4Tool"
         mc:Ignorable="d"
-        Title="HOI4Tool" Height="789" Width="1199"
-        Background="{x:Null}" Icon="/Icons/Tool.ico" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow">
+        Height="789" 
+        Width="1199"
+        Background="{x:Null}" 
+        Icon="/Icons/Tool.ico" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="SingleBorderWindow"
+        x:Name="Hauptfenster"
+        Title="{Binding Path=FullProgramVersionWithName}">
     <Grid Background="BlueViolet" ShowGridLines="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1180*"></ColumnDefinition>
@@ -53,7 +59,13 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Frame Content="Frame" x:Name="mainFrame" Grid.Row="1" Grid.Column="0" IsTabStop="False" NavigationUIVisibility="Hidden" Grid.ColumnSpan="2">
+        <Frame Content="Frame" 
+               x:Name="mainFrame" 
+               Grid.Row="1" 
+               Grid.Column="0" 
+               IsTabStop="False" 
+               NavigationUIVisibility="Hidden" 
+               Grid.ColumnSpan="2">
             <Frame.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White"/>

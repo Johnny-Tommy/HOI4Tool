@@ -7,8 +7,20 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Start">
-
-    <Grid>
+    <Page.Resources>
+        <Style x:Key="Link" TargetType="TextBox">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Foreground" Value="#FF78D4FF"  />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="FontStyle" Value="Normal" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="SelectionBrush" Value="#FF5B5B5B" />
+            <Setter Property="IsReadOnly" Value="True" />
+        </Style>
+    </Page.Resources>
+    <Grid x:Name="gridStart">
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
             <RowDefinition Height="*" />
@@ -43,17 +55,25 @@
                 <Label FontWeight="Bold" Content="Version:" Foreground="Lime" />
                 <Label FontWeight="Bold" Content="Framework:" Foreground="Lime" />
                 <Label FontWeight="Bold" Content="Autor:" Foreground="Lime" />
+                <Label FontWeight="Bold" Content="Github:" Foreground="Lime" />
                 <Label FontWeight="Bold" Content="Beschreibung:" Foreground="Lime" />
             </StackPanel>
             <StackPanel Grid.Column="1" Grid.Row="0">
-                <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap">HOI4Tool</TextBlock>
-                <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap">1.0</TextBlock>
+                <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap" Text="{Binding Path=ProductName}" />
+                <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap" Text="{Binding Path=FullProgramVersion}" />
                 <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap">Microsoft.NET Core 3.1</TextBlock>
-                <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap">Johannes Thom</TextBlock>
+                <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap" Text="{Binding Path=Autor}" />
+                <TextBox Style="{StaticResource Link}" Text="https://github.com/Johnny-Tommy/HOI4Tool" />
                 <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap">Das Tool bietet zur Zeit einen Viewer für DDS-Dateien (Direct Draw Surface) und einen Insignieneditor. Mit diesem können die Insignien im Spiel Hearts of Iron IV angepasst werden.</TextBlock>
                 <Separator />
-                <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap">DDS-Bibliothek: BCnEncoder (Spezieller Dank geht an: https://github.com/Nominom/BCnEncoder.NET)</TextBlock>
-                <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap">Pdoxcl2Sharp-Bibliothek: Paradox Dateiparser (Spezieller Dank geht an: https://github.com/nickbabcock/Pdoxcl2Sharp)</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap">DDS-Bibliothek: BCnEncoder 2.1.0 - spezieller Dank geht an:</TextBlock>
+                    <TextBox Style="{StaticResource Link}" Text="https://github.com/Nominom/BCnEncoder.NET" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="5" Foreground="Lime" TextWrapping="Wrap">Pdoxcl2Sharp-Bibliothek: Paradox Dateiparser 0.6.1 - spezieller Dank geht an:</TextBlock>
+                    <TextBox Style="{StaticResource Link}" Text="https://github.com/nickbabcock/Pdoxcl2Sharp" />
+                </StackPanel>
             </StackPanel>
         </Grid>
 
