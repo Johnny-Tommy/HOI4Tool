@@ -21,3 +21,4 @@ To use the insignia editor, you have to go to setup first. Here you've to config
 - Import function for new graphics to use for an insignia
 - optimize XAML
 - optimize the open points (see preprocessor instructions)
+- translate the application into english
