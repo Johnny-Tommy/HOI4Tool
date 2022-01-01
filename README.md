@@ -1,5 +1,6 @@
 # HOI4Tool
 ## Little modding tool for the game "Hearts of Iron IV"
+(Written in C# and XAML (WPF). Windows OS and dotnetcore 3.1 is required to run this application.)
 
 Special thanks goes to the folowing projects:
 - encoding libary (a.o. DDS): https://github.com/Nominom/BCnEncoder.NET
