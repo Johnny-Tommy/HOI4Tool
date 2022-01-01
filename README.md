@@ -23,3 +23,4 @@ To use the insignia editor, you have to go to setup first. Here you've to config
 - optimize XAML
 - optimize the open points (see preprocessor instructions)
 - translate the application into english
+- batch operations to edit multiple icons at the same time
