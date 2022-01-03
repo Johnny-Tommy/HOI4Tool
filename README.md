@@ -1,8 +1,8 @@
 # HOI4Tool
 ## Little modding tool for the game "Hearts of Iron IV"
-(Written in C# and XAML (WPF). Windows OS and dotnetcore 3.1 is required to run this application.)
+(Written in C# and XAML (WPF). Windows OS and dotnetcore 3.1 are required to run this application.)
 
-Special thanks goes to the folowing projects:
+Special thanks to the following projects:
 - encoding libary (a.o. DDS): https://github.com/Nominom/BCnEncoder.NET
 - file parser "format of Paradox":  https://github.com/nickbabcock/Pdoxcl2Sharp
 
@@ -14,13 +14,13 @@ Special thanks goes to the folowing projects:
 ![image](https://user-images.githubusercontent.com/94912164/147831839-9bbbdfc4-6536-47f8-9598-6bca2724ff55.png)
 
 ### How to use / first steps
-To use the insignia editor, you have to go to setup first. Here you've to configure the directory paths - this should me self explanatory. After this you have to create an Backup of the files which could be edited with this tool. Just press the backup button. (the recovery doesn't work yet - just copy the backuped files to the origin if you want to recover your files)
+To use the insignia editor, you have to go to the setup first to configure the directory paths. This step should be self explanatory. After this you have to create a backup of the files which can be edited with this tool. To do this, just press the backup button. (The recovery doesn't work yet - just copy the files from the backup folder to their original location if you want to recover your files)
 
 ### Future steps
 
 - Recovery function
 - Import function for new graphics to use for an insignia
-- optimize XAML
-- optimize the open points (see preprocessor instructions)
-- translate the application into english
-- batch operations to edit multiple icons at the same time
+- Optimize XAML
+- Optimize the open points (see preprocessor instructions)
+- Translate the application into english
+- Batch operations to edit multiple icons at the same time
