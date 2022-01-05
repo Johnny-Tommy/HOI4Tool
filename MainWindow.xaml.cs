@@ -16,17 +16,6 @@ using System.Windows.Shapes;
 using System.Drawing;
 using System.Reflection;
 
-//[assembly: AssemblyProductAttribute("HOI4-Tool")]
-//// Das ist die Programmversion (auch unter Einstellungen->Details der EXE-Datei zu sehen)
-//// Dies ist noch eine Testversion. Deshalb fangen wir hier mit 0.1 an :-)
-//[assembly: AssemblyFileVersionAttribute("0.2.0.0")]
-//// Die Version wird nur bei Assemblys mit starkem Namen überprüft.
-//// Diese ist dann relevant für die Assemblies die diese nutzen!
-//[assembly: AssemblyVersionAttribute("1.0.*")]
-//[assembly: AssemblyDescription("A little modding tool for the nice game Hearts of Iron IV from Paradox Interactive.")]
-//[assembly: AssemblyInformationalVersion("Testversion")]
-//[assembly: AssemblyCopyright("Johannes Thom")]
-
 namespace HOI4Tool
 {
     /// <summary>
