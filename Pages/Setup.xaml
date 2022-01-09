@@ -106,7 +106,7 @@
                                 </TextBox.Style>
                             </TextBox>
                             <!-- Der Tag gibt den Index in der Directoryliste des Filemanagers an. Der Pfad kann dann gezielt dort gespeichert werden. -->
-                            <Button Click="OpenDir_Click" Tag="1" Grid.Row="0" Grid.Column="2">
+                            <Button Click="OpenDir_Click" Tag="0" Grid.Row="0" Grid.Column="2">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SetupButtonChooseDir}" />
                                 </Button.Style>
@@ -328,7 +328,7 @@
                                 </TextBox.Style>
                             </TextBox>
                             <!-- Der Tag gibt den Index in der Directoryliste des Filemanagers an. Der Pfad kann dann gezielt dort gespeichert werden. -->
-                            <Button Click="OpenDir_Click" Tag="1" Grid.Row="0" Grid.Column="2">
+                            <Button Click="OpenDir_Click" Tag="2" Grid.Row="0" Grid.Column="2">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SetupButtonChooseDir}" />
                                 </Button.Style>
