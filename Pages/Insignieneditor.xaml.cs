@@ -26,6 +26,7 @@ namespace HOI4Tool
         private Icon _currentSelectedIcon;
         public ArmyIconsTxt armeeIcons;
         public SpriteTypes theatreSelectorGFX;
+
         public Insignieneditor()
         {
             InitializeComponent();            
@@ -396,6 +397,47 @@ namespace HOI4Tool
             {
                 MessageBox.Show(err.Message, "Fehler :-(", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        /// <summary>
+        /// Returns a list with object of type icon. Everey icon represent an insignia with all properties and graphics.
+        /// Depending on what is selected in the combobox control of the editor, this method will find every selected icon
+        /// in of the respective paradoxtype (army, armygroup or fleet). The icons of each paradoxtyp are represented in
+        /// the datagrid.
+        /// </summary>
+        /// <returns></returns>
+        private List<Icon> GetSelectedIcons()
+        {
+            List<Icon> iconList = new List<Icon>();
+
+            // Save the currently selected paradox category in typ
+            ParadoxCategory currentlySelectedTyp = (ParadoxCategory)comboBoxTyp.SelectedIndex;
+
+            // Looking for the correct paradoxtype. Via the type we gain access to the icon list.
+            foreach (ParadoxType ptyp in armeeIcons.ParadoxTypes)
+            {
+                if (ptyp.ParadoxCategory == currentlySelectedTyp)
+                {
+                    // go through all selected items in the dataGrid
+                    foreach (DataGridCellInfo cellInfo in dataGridInsignien.SelectedCells)
+                    {
+                        Row row = (Row)cellInfo.Item;
+                        // calculate the internal index of the icon list which belongs to the current paradoxType
+                        int iconIndex =  cellInfo.Column.DisplayIndex + 6 * row.No;
+
+                        iconList.Add(ptyp.Icons[iconIndex]);
+                    }
+                }
+            }
+
+            return iconList;
+        }
+
+        private void cmdCopy_Click(object sender, RoutedEventArgs e)
+        {
+            List<Icon> liste = this.GetSelectedIcons();
+            foreach(Icon ico in liste)
+                MessageBox.Show(ico.Name);
         }
     }
 }
