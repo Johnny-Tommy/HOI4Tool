@@ -249,29 +249,17 @@ namespace HOI4Tool
 
         private void cmdDelete_Click(object sender, RoutedEventArgs e)
         {
-            List<Icon> iconsToDelete = new List<Icon>();
+            ParadoxType prdxType = this.GetSelectedParadoxType();
 
-            ParadoxCategory typ = (ParadoxCategory)comboBoxTyp.SelectedIndex;
-
-#warning Hier noch ne Sicherung einbauen, falls es aus irgendeinem Grund mehere Gruppen gibt.
-            foreach (ParadoxType ptyp in armeeIcons.ParadoxTypes)
+            if(prdxType != null)
             {
-                if (ptyp.ParadoxCategory == typ)
+                List<Icon> iconsToDelete = this.GetSelectedIcons();
+                foreach (Icon icon in iconsToDelete)
                 {
-                    foreach (DataGridCellInfo cellInfo in dataGridInsignien.SelectedCells)
-                    {
-                        Row r = (Row)cellInfo.Item;
-                        iconsToDelete.Add(ptyp.Icons[cellInfo.Column.DisplayIndex + 6 * r.No]);
-                    }
-
-                    foreach (Icon icon in iconsToDelete)
-                    {
-                        ptyp.Icons.Remove(icon);
-                    }
-
+                    prdxType.Icons.Remove(icon);
                 }
             }
-                        
+
             ComboBox_SelectionChanged(null, null); // Schade! Das mit der ObservableCollection klappt noch nicht ganz ohne explizite Aktualisierung :-(
         }
 
@@ -409,7 +397,37 @@ namespace HOI4Tool
         private List<Icon> GetSelectedIcons()
         {
             List<Icon> iconList = new List<Icon>();
+            ParadoxType prdxType = this.GetSelectedParadoxType();
 
+            if(prdxType != null)
+            {
+                // go through all selected items in the dataGrid
+                foreach (DataGridCellInfo cellInfo in dataGridInsignien.SelectedCells)
+                {
+                    Row row = (Row)cellInfo.Item;
+                    // calculate the internal index of the icon list which belongs to the current paradoxType
+                    int iconIndex = cellInfo.Column.DisplayIndex + 6 * row.No;
+
+
+                    iconList.Add(prdxType.Icons[iconIndex]);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Der ParadoxTyp wurde anhand der Auswahl in der ComboBox nicht gefunden.", "Typ nicht gefunden", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            return iconList;
+        }
+
+        /// <summary>
+        /// Returns the ParadoxType object from ArmyIconsTxt which is currently, 
+        /// indirect selected via the combobox. (ParadoxTypes are army, armygroups, fleets etc.)
+        /// </summary>
+        /// <returns></returns>
+        private ParadoxType GetSelectedParadoxType()
+        {
+#warning Hier noch ne Sicherung einbauen, falls es aus irgendeinem Grund mehere Typen gibt.
             // Save the currently selected paradox category in typ
             ParadoxCategory currentlySelectedTyp = (ParadoxCategory)comboBoxTyp.SelectedIndex;
 
@@ -418,19 +436,12 @@ namespace HOI4Tool
             {
                 if (ptyp.ParadoxCategory == currentlySelectedTyp)
                 {
-                    // go through all selected items in the dataGrid
-                    foreach (DataGridCellInfo cellInfo in dataGridInsignien.SelectedCells)
-                    {
-                        Row row = (Row)cellInfo.Item;
-                        // calculate the internal index of the icon list which belongs to the current paradoxType
-                        int iconIndex =  cellInfo.Column.DisplayIndex + 6 * row.No;
-
-                        iconList.Add(ptyp.Icons[iconIndex]);
-                    }
+                    return ptyp;
                 }
             }
 
-            return iconList;
+            // Type not found for some reason.
+            return null;
         }
 
         private void cmdCopy_Click(object sender, RoutedEventArgs e)
