@@ -6,14 +6,13 @@
 [assembly: AssemblyFileVersionAttribute("0.2.0.0")]
 // Die Version wird nur bei Assemblys mit starkem Namen überprüft.
 // Diese ist dann relevant für die Assemblies die diese nutzen!
-[assembly: AssemblyVersionAttribute("1.0.*")]
+[assembly: AssemblyVersionAttribute("1.0.8049.32443")]
 [assembly: AssemblyDescription("A little modding tool for the nice game Hearts of Iron IV from Paradox Interactive.")]
 [assembly: AssemblyInformationalVersion("Testversion")]
 [assembly: AssemblyCopyright("Johannes Thom")]
 
 namespace HOI4Tool
 {
-
     public class CustomAssemblyInfo
     {
         private Assembly _assembly;
