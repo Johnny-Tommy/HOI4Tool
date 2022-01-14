@@ -15,6 +15,7 @@ using System.IO;
 using Pdoxcl2Sharp;
 using HOI4Tool.Properties;
 using System.Drawing;
+using System.Runtime.Serialization.Formatters.Binary; // BinaryFormatter
 
 namespace HOI4Tool
 {
@@ -24,12 +25,14 @@ namespace HOI4Tool
     public partial class Insignieneditor : Page
     {
         private Icon _currentSelectedIcon;
+        private List<Icon> _tempIconList = new List<Icon>();
         public ArmyIconsTxt armeeIcons;
         public SpriteTypes theatreSelectorGFX;
 
         public Insignieneditor()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            stackPanelButtons.DataContext = this;
 
             try
             {
@@ -111,14 +114,14 @@ namespace HOI4Tool
                                         }
                                         else
                                         {
-                                            lblMeldung.Visibility = Visibility.Visible;
-                                            lblMeldung.Content = "Es wurden keine Daten für Armeen in der Konfigdatei gefunden!";
+                                            //lblMeldung.Visibility = Visibility.Visible;
+                                            //lblMeldung.Content = "Es wurden keine Daten für Armeen in der Konfigdatei gefunden!";
                                         }
                                     }
                                     else
                                     {
-                                        lblMeldung.Visibility = Visibility.Visible;
-                                        lblMeldung.Content = "Keine Grafikdatei für " + paradoxType.ParadoxCategory.ToString() + " vorhanden.";
+                                        //lblMeldung.Visibility = Visibility.Visible;
+                                        //lblMeldung.Content = "Keine Grafikdatei für " + paradoxType.ParadoxCategory.ToString() + " vorhanden.";
                                     }
                                 }
                             }
@@ -147,6 +150,14 @@ namespace HOI4Tool
             catch(Exception err)
             {
                 MessageBox.Show(err.Message, "Fehler :-(", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public int NoCopiedIcons
+        {
+            get
+            {
+                return this._tempIconList.Count;
             }
         }
 
@@ -446,9 +457,38 @@ namespace HOI4Tool
 
         private void cmdCopy_Click(object sender, RoutedEventArgs e)
         {
-            List<Icon> liste = this.GetSelectedIcons();
-            foreach(Icon ico in liste)
-                MessageBox.Show(ico.Name);
+            List<Icon> selectedIconList = this.GetSelectedIcons();
+            this._tempIconList.Clear();
+
+            try
+            {
+                foreach (Icon ico in selectedIconList)
+                {
+                    this._tempIconList.Add(ico.Clone());
+                }
+
+#warning Hier noch ein INotification einbauen 
+                stackPanelButtons.DataContext = null;
+                stackPanelButtons.DataContext = this;
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message, "Fehler beim Kopieren", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void cmdInsert_Click(object sender, RoutedEventArgs e)
+        {
+            ParadoxType pType = this.GetSelectedParadoxType();
+
+            foreach(Icon icon in this._tempIconList)
+            {
+                pType.Icons.Add(icon);
+            }
+
+            // Gridansicht aktualisieren
+            dataGridInsignien.ItemsSource = null;
+            dataGridInsignien.ItemsSource = pType.IconGrid;
         }
     }
 }

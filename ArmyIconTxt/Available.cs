@@ -6,6 +6,7 @@ using Pdoxcl2Sharp;
 
 namespace HOI4Tool
 {
+    [Serializable]
     public class Available : IParadoxRead
     {
         public string HasDlc { get; set; }

@@ -14,6 +14,9 @@ using System.ComponentModel;
 // u.a. CallerMemberName
 using System.Runtime.CompilerServices;
 
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
 namespace HOI4Tool
 {
     public class Icon : IParadoxRead, INotifyPropertyChanged
@@ -177,6 +180,41 @@ namespace HOI4Tool
                 case "color_override": ColorOverride = parser.ReadString(); break;
                 case "name": Name = parser.ReadString(); break;
                 case "available": Availables.Add(parser.Parse(new Available())); break;
+            }
+        }
+
+        public Icon Clone()
+        {
+            // Unfortunatly, you can't serialize the entire Icon class because of the bitmaps :-(.
+            // These objects has an own clone method.
+            Icon tmpIcon = null;
+            MemoryStream memStream = new MemoryStream();
+            BinaryFormatter binFormatter = new BinaryFormatter();
+
+            try
+            {
+                binFormatter.Serialize(memStream, this.Availables);
+                memStream.Position = 0;
+
+                tmpIcon = new Icon
+                {
+                    Name = this.Name,
+                    ColorOverride = this.ColorOverride,
+                    Availables = (List<Available>)binFormatter.Deserialize(memStream),
+                    BmpSource = this.BmpSource.Clone(),
+                    Bmp = (Bitmap)this.Bmp.Clone()
+                };
+
+                return tmpIcon;
+            }
+            catch(Exception err)
+            {
+                throw err;
+            }
+            finally
+            {
+                memStream.Close();
+                memStream.Dispose();
             }
         }
     }
