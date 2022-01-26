@@ -490,5 +490,21 @@ namespace HOI4Tool
             dataGridInsignien.ItemsSource = null;
             dataGridInsignien.ItemsSource = pType.IconGrid;
         }
+
+        private void cmdAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            dlg.DefaultExt = ".png";
+            dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                IconSelectWindow icoSelWin = new IconSelectWindow(dlg.FileName);
+                icoSelWin.ShowDialog();
+            }
+        }
     }
 }

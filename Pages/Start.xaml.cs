@@ -20,8 +20,15 @@ namespace HOI4Tool
     {
         public Start()
         {
-            InitializeComponent();
-            gridStart.DataContext = (CustomAssemblyInfo)Application.Current.Properties["Info"];
+            try
+            {
+                InitializeComponent();
+                gridStart.DataContext = (CustomAssemblyInfo)Application.Current.Properties["Info"];
+            }
+            catch(Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
         }
     }
 }

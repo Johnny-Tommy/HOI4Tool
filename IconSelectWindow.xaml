@@ -1,0 +1,59 @@
+﻿<Window x:Class="HOI4Tool.IconSelectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HOI4Tool"
+        mc:Ignorable="d"
+        Title="Bereich für neues Icon auswählen..." 
+        Height="800" 
+        Width="1000"
+        x:Name="windowIconSelect" BorderThickness="2,2,2,2" BorderBrush="#FF686868" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" WindowStyle="SingleBorderWindow"
+        >
+    <Window.Background>
+        <RadialGradientBrush>
+            <GradientStop Color="#FF00D1FF"/>
+            <GradientStop Color="#FFBDBDBD" Offset="1"/>
+        </RadialGradientBrush>
+    </Window.Background>
+    <Grid ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="80" />
+        </Grid.RowDefinitions>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" 
+                      VerticalScrollBarVisibility="Visible" 
+                      CanContentScroll="True"
+                      Grid.Column="0"
+                      Grid.Row="0"
+                      Grid.RowSpan="10">
+            <Canvas x:Name="myCanvas" 
+                    Grid.Row="0" 
+                    VerticalAlignment="Top" 
+                    HorizontalAlignment="Left">
+                <Rectangle Width="100" 
+                           Height="100"  
+                           Fill="#FFA0A0A0" 
+                           Opacity="0.4" 
+                           Stroke="Black"
+                           Canvas.Left="0"
+                           Canvas.Top="0"
+                           MouseLeftButtonUp="Rectangle_MouseLeftButtonUp" 
+                           MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" 
+                           MouseMove="Rectangle_MouseMove" 
+                           MouseLeave="Rectangle_MouseLeave" 
+                           />
+            </Canvas>
+        </ScrollViewer>
+        <Image x:Name="myImage" Grid.Row="1" Grid.Column="1"></Image>
+    </Grid>
+</Window>

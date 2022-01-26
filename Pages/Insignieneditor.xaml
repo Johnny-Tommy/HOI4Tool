@@ -153,6 +153,7 @@
                 
                 <StackPanel x:Name="stackPanelButtons" Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                     <Label Content="{Binding Path=NoCopiedIcons}" x:Name="lblMessage" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    <Button Style="{StaticResource DefaultButton}" Name="cmdAdd" Content="Neu" Click="cmdAdd_Click" />
                     <Button Style="{StaticResource DefaultButton}" Name="cmdCopy" Content="Kopieren" Click="cmdCopy_Click" />
                     <Button Name="cmdInsert" Content="Einfügen" Click="cmdInsert_Click">
                         <Button.Style>
