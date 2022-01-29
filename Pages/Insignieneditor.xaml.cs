@@ -502,8 +502,12 @@ namespace HOI4Tool
 
             if (result == true)
             {
-                IconSelectWindow icoSelWin = new IconSelectWindow(dlg.FileName);
+                ParadoxType pType = this.GetSelectedParadoxType();
+                IconSelectWindow icoSelWin = new IconSelectWindow(dlg.FileName, pType);
                 icoSelWin.ShowDialog();
+                // Gridansicht aktualisieren
+                dataGridInsignien.ItemsSource = null;
+                dataGridInsignien.ItemsSource = pType.IconGrid;
             }
         }
     }

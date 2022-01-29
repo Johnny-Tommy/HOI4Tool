@@ -8,14 +8,24 @@
         Title="Bereich für neues Icon auswählen..." 
         Height="800" 
         Width="1000"
-        x:Name="windowIconSelect" BorderThickness="2,2,2,2" BorderBrush="#FF686868" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" WindowStyle="SingleBorderWindow"
-        >
-    <Window.Background>
-        <RadialGradientBrush>
-            <GradientStop Color="#FF00D1FF"/>
-            <GradientStop Color="#FFBDBDBD" Offset="1"/>
-        </RadialGradientBrush>
-    </Window.Background>
+        x:Name="windowIconSelect" 
+        BorderThickness="2,2,2,2" 
+        BorderBrush="#FF686868" 
+        ResizeMode="NoResize" 
+        ShowInTaskbar="False" 
+        WindowStartupLocation="CenterOwner" 
+        WindowStyle="SingleBorderWindow">
+    <Window.Resources>
+        <Style TargetType="GroupBox" x:Key="DefaultGroupBox">
+            <Setter Property="Margin" Value="10,10,10,10" />
+        </Style>
+        <Style TargetType="Button" x:Key="DefaultButton">
+            <Setter Property="Content" Value="N/A" />
+            <Setter Property="Margin" Value="10,10,10,10" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="25" />
+        </Style>
+    </Window.Resources>
     <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -25,35 +35,57 @@
             <RowDefinition Height="80" />
             <RowDefinition Height="80" />
             <RowDefinition Height="80" />
-            <RowDefinition Height="80" />
-            <RowDefinition Height="80" />
-            <RowDefinition Height="80" />
-            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ScrollViewer HorizontalScrollBarVisibility="Visible" 
+        <GroupBox Style="{StaticResource DefaultGroupBox}" 
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  Grid.RowSpan="10"
+                  Header=" Icon auswählen... ">
+            <Grid>
+                <ScrollViewer HorizontalScrollBarVisibility="Visible" 
                       VerticalScrollBarVisibility="Visible" 
-                      CanContentScroll="True"
-                      Grid.Column="0"
-                      Grid.Row="0"
-                      Grid.RowSpan="10">
-            <Canvas x:Name="myCanvas" 
+                      CanContentScroll="True">
+                    <ScrollViewer.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFBBBBBB"/>
+                            <GradientStop Color="#FFEAA3FF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ScrollViewer.Background>
+                    <Canvas x:Name="myCanvas" 
                     Grid.Row="0" 
                     VerticalAlignment="Top" 
                     HorizontalAlignment="Left">
-                <Rectangle Width="100" 
+                        <Rectangle Width="100" 
                            Height="100"  
                            Fill="#FFA0A0A0" 
                            Opacity="0.4" 
                            Stroke="Black"
                            Canvas.Left="0"
                            Canvas.Top="0"
+                           SnapsToDevicePixels="True"
+                           x:Name="croppingFrame"
                            MouseLeftButtonUp="Rectangle_MouseLeftButtonUp" 
                            MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" 
                            MouseMove="Rectangle_MouseMove" 
                            MouseLeave="Rectangle_MouseLeave" 
                            />
-            </Canvas>
-        </ScrollViewer>
-        <Image x:Name="myImage" Grid.Row="1" Grid.Column="1"></Image>
+                    </Canvas>
+                </ScrollViewer>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="0" 
+                  Grid.Column="1" 
+                  Header=" Vorschau " 
+                  Style="{StaticResource DefaultGroupBox}">
+            <Image x:Name="PreviewImage" 
+                   Width="32" 
+                   Height="32" />
+        </GroupBox>
+        <Button Style="{StaticResource DefaultButton}" Grid.Row="1" Grid.Column="1" 
+                VerticalAlignment="Top" HorizontalAlignment="Right" Content="Original" x:Name="cmdOriginalSize" Click="cmdOriginalSize_Click"  />
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Button Style="{StaticResource DefaultButton}" Content="Ok" Click="Button_Click"  />
+        </StackPanel>
     </Grid>
 </Window>

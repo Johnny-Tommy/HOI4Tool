@@ -10,6 +10,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using HOI4Tool.Properties;
+using System.IO;
+
 namespace HOI4Tool
 {
     /// <summary>
@@ -31,9 +34,14 @@ namespace HOI4Tool
         // Objekt, welches das aktuell geladene Bild darstellt.
         BitmapImage bmpImage;
 
-        public IconSelectWindow(string pathToImage)
+        private CroppedBitmap _croppedBmp;
+        private ParadoxType _pdxType;
+
+        public IconSelectWindow(string pathToImage, ParadoxType pdxType)
         {
             InitializeComponent();
+
+            this._pdxType = pdxType;
 
             // Ausgewähltes Bild laden und der Objektvariablen zuweisen. Dieses wird in ein Brush umgewandelt um es
             // im Canvas-Objekt als Hintergrund zu verwenden. Der Hintergrund ist quasi die Arbeitsfläche auf der man
@@ -153,8 +161,8 @@ namespace HOI4Tool
             Rectangle draggableControl = sender as Rectangle; // oder as Shape
             draggableControl.ReleaseMouseCapture();
             Int32Rect rechteck = new Int32Rect((int)Canvas.GetLeft(draggableControl), (int)Canvas.GetTop(draggableControl), (int)draggableControl.Width, (int)draggableControl.Height);
-            CroppedBitmap croppedBmp = new CroppedBitmap(bmpImage, rechteck);
-            myImage.Source = croppedBmp;
+            this._croppedBmp = new CroppedBitmap(bmpImage, rechteck);
+            PreviewImage.Source = this._croppedBmp;
         }
 
         private void Rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -175,6 +183,67 @@ namespace HOI4Tool
         private void Rectangle_MouseLeave(object sender, MouseEventArgs e)
         {
             Cursor = Cursors.Arrow;
+        }
+
+        private void cmdOriginalSize_Click(object sender, RoutedEventArgs e)
+        {
+            this.croppingFrame.Width = Settings.Default.InsigniaWidth;
+            this.croppingFrame.Height = Settings.Default.InsigniaHeight;
+        }
+
+
+
+
+
+
+
+#warning Besser designen!
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Icon icon = new Icon();
+            icon.Bmp = this.GetBitmap(this._croppedBmp);
+            icon.Bmp.SetResolution(96, 96);
+            icon.BmpSource = this.Bitmap2BitmapImage(icon.Bmp);
+            this._pdxType.Icons.Add(icon);
+
+            this.Close();
+        }
+
+        //private byte[] GetJPGFromImageControl(BitmapImage imageC)
+        //{
+        //    MemoryStream memStream = new MemoryStream();
+        //    JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+        //    encoder.Frames.Add(BitmapFrame.Create(imageC));
+        //    encoder.Save(memStream);
+        //    return memStream.ToArray();
+        //}
+
+        private System.Drawing.Bitmap GetBitmap(BitmapSource source)
+        {
+            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(source.PixelWidth, source.PixelHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            System.Drawing.Imaging.BitmapData data = bmp.LockBits(new System.Drawing.Rectangle(System.Drawing.Point.Empty, bmp.Size), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            source.CopyPixels(
+              Int32Rect.Empty,
+              data.Scan0,
+              data.Height * data.Stride,
+              data.Stride);
+            bmp.UnlockBits(data);
+            
+            System.Drawing.Bitmap resizedBmp = new System.Drawing.Bitmap(bmp, new System.Drawing.Size(Settings.Default.InsigniaWidth, Settings.Default.InsigniaHeight));
+            return resizedBmp;
+        }
+
+        private BitmapImage Bitmap2BitmapImage(System.Drawing.Bitmap bmp)
+        {
+            MemoryStream ms = new MemoryStream();
+            bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+            BitmapImage img = new BitmapImage();
+            img.BeginInit();
+            ms.Seek(0, SeekOrigin.Begin);
+            img.StreamSource = ms;
+            img.EndInit();
+
+            return img;
         }
     }
 }
