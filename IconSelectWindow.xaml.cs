@@ -79,7 +79,7 @@ namespace HOI4Tool
                     double newXvalue = e.GetPosition(myCanvas).X - clickPosition.X; // Von der linken Rechteckseite aus betrachtet.
                     double newYvalue = e.GetPosition(myCanvas).Y - clickPosition.Y; // Von der oberen Rechteckseite aus betrachtet.
 
-                    // Verschieben wenn die Grenzen mit dem Auswahlrechteck von Canvas nicht überschritten werden.
+                    // Verschieben wenn die Grenzen mit dem Auswahlrechteck von Canvas nicht überschritten werden!
                     if (newXvalue >= 0 && newXvalue + draggableControl.Width <= myCanvas.Width)
                     {
                         Canvas.SetLeft(draggableControl, newXvalue);
@@ -96,7 +96,7 @@ namespace HOI4Tool
                     if (Cursor == Cursors.SizeWE)
                     {
                         if (direction == Direction.right)
-                        {
+                        {                            
                             // von rechts gezogen
                             draggableControl.Width = e.GetPosition(myCanvas).X - Canvas.GetLeft(draggableControl);
                         }
@@ -126,13 +126,16 @@ namespace HOI4Tool
                 }
                 else
                 {
-                    // Cursoraussehen verändern, je nachdem wo sich der Mauszeiger befindet
-                    if (e.GetPosition(draggableControl).X == 0 || e.GetPosition(draggableControl).X == draggableControl.Width)
+                    myLabel.Text = "DraggableY: = " + Math.Ceiling(e.GetPosition(draggableControl).Y).ToString() + " DraggableHeight: " + draggableControl.Height.ToString(); 
+                    
+                    // Cursoraussehen verändern, je nachdem wo sich der Mauszeiger befindet                    
+                    if (e.GetPosition(draggableControl).X >= 0 && e.GetPosition(draggableControl).X <= 1 || e.GetPosition(draggableControl).X == Math.Round(draggableControl.Width))
                     {
                         Cursor = Cursors.SizeWE;
                         direction = e.GetPosition(draggableControl).X == 0 ? Direction.left : Direction.right;
                     }
-                    else if (e.GetPosition(draggableControl).Y == 0 || e.GetPosition(draggableControl).Y == draggableControl.Height)
+                    else if (e.GetPosition(draggableControl).Y >= 0 && e.GetPosition(draggableControl).Y <= 1 || 
+                             Math.Ceiling(e.GetPosition(draggableControl).Y) == draggableControl.Height)
                     {
                         Cursor = Cursors.SizeNS;
                         direction = e.GetPosition(draggableControl).Y == 0 ? Direction.up : Direction.down;

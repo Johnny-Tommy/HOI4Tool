@@ -56,14 +56,14 @@
                     Grid.Row="0" 
                     VerticalAlignment="Top" 
                     HorizontalAlignment="Left">
-                        <Rectangle Width="100" 
+                        <Rectangle
+                           Width="100" 
                            Height="100"  
                            Fill="#FFA0A0A0" 
                            Opacity="0.4" 
                            Stroke="Black"
                            Canvas.Left="0"
                            Canvas.Top="0"
-                           SnapsToDevicePixels="True"
                            x:Name="croppingFrame"
                            MouseLeftButtonUp="Rectangle_MouseLeftButtonUp" 
                            MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" 
@@ -84,6 +84,7 @@
         </GroupBox>
         <Button Style="{StaticResource DefaultButton}" Grid.Row="1" Grid.Column="1" 
                 VerticalAlignment="Top" HorizontalAlignment="Right" Content="Original" x:Name="cmdOriginalSize" Click="cmdOriginalSize_Click"  />
+        <TextBlock x:Name="myLabel" Grid.Column="1" Grid.Row="2" />
         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <Button Style="{StaticResource DefaultButton}" Content="Ok" Click="Button_Click"  />
         </StackPanel>
