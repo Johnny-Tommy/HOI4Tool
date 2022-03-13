@@ -57,6 +57,8 @@ namespace HOI4Tool
             // Außerdem ist die reguläre Maßeinheit Punkt und nicht Pixel.
             myCanvas.Width = bmpImage.PixelWidth;
             myCanvas.Height = bmpImage.PixelHeight;
+
+            windowIconSelect.DataContext = this;
         }
 
         private enum Direction
@@ -126,8 +128,6 @@ namespace HOI4Tool
                 }
                 else
                 {
-                    myLabel.Text = "DraggableY: = " + Math.Ceiling(e.GetPosition(draggableControl).Y).ToString() + " DraggableHeight: " + draggableControl.Height.ToString(); 
-                    
                     // Cursoraussehen verändern, je nachdem wo sich der Mauszeiger befindet                    
                     if (e.GetPosition(draggableControl).X >= 0 && e.GetPosition(draggableControl).X <= 1 || e.GetPosition(draggableControl).X == Math.Round(draggableControl.Width))
                     {
@@ -148,13 +148,13 @@ namespace HOI4Tool
                 }
             }
 
-            //lblAusgabe.Content = "x (Maus) = " + e.GetPosition(myCanvas).X.ToString()
-            //                  + " y (Maus) = " + e.GetPosition(myCanvas).Y.ToString()
-            //                  + " RECHTECK: [Left = " + Canvas.GetLeft(draggableControl)
-            //                  + " Top = " + Canvas.GetTop(draggableControl)
-            //                  + " Width (Rahmen) = " + draggableControl.Width.ToString()
-            //                  + " Height (Rahmen) = " + draggableControl.Height.ToString()
-            //                  + "] ClickPos = " + clickPosition;
+            this.lblMousePosX.Content = e.GetPosition(myCanvas).X.ToString();
+            this.lblMousePosXrounded.Content = Math.Round(e.GetPosition(myCanvas).X).ToString();
+            this.lblMousePosY.Content = e.GetPosition(myCanvas).Y.ToString();
+            this.lblMousePosYrounded.Content = Math.Round(e.GetPosition(myCanvas).Y).ToString();
+
+            this.lblCropFrameSizeX.Content = draggableControl.Width.ToString();
+            this.lblCropFrameSizeY.Content = draggableControl.Height.ToString();
         }
 
         private void Rectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -181,6 +181,9 @@ namespace HOI4Tool
                 isResizing = true;
             }
             draggableControl.CaptureMouse();
+
+            this.lblClickPosX.Content = this.clickPosition.X.ToString();
+            this.lblClickPosY.Content = this.clickPosition.Y.ToString();
         }
 
         private void Rectangle_MouseLeave(object sender, MouseEventArgs e)
