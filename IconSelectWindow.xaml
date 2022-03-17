@@ -14,7 +14,7 @@
         ResizeMode="NoResize" 
         ShowInTaskbar="False" 
         WindowStartupLocation="CenterOwner" 
-        WindowStyle="SingleBorderWindow">
+        WindowStyle="SingleBorderWindow" Icon="/Icons/Picture.png">
     <Window.Resources>
         <Style TargetType="GroupBox" x:Key="DefaultGroupBox">
             <Setter Property="Margin" Value="10,10,10,10" />
@@ -41,8 +41,9 @@
             <RowDefinition Height="100" />
             <RowDefinition Height="50" />
             <RowDefinition Height="160" />
-            <RowDefinition Height="160" />
-            <RowDefinition Height="160" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="100" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <GroupBox Style="{StaticResource DefaultGroupBox}" 
@@ -56,14 +57,15 @@
                       CanContentScroll="True">
                     <ScrollViewer.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FFBBBBBB"/>
-                            <GradientStop Color="#FFEAA3FF" Offset="1"/>
+                            <GradientStop Color="Blue" />
+                            <GradientStop Color="Black" Offset="1"/>
                         </LinearGradientBrush>
                     </ScrollViewer.Background>
                     <Canvas x:Name="myCanvas" 
                     Grid.Row="0" 
                     VerticalAlignment="Top" 
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Left"
+                    Margin="10,10,10,10">
                         <Rectangle
                            Width="100" 
                            Height="100"  
@@ -152,7 +154,9 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        
+
+        <Label Content="###" Grid.Row="5" Grid.Column="1" x:Name="lblMessage" />
+
         <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <Button Style="{StaticResource DefaultButton}" Content="Ok" Click="Button_Click"  />
         </StackPanel>

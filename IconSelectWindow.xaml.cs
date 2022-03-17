@@ -115,7 +115,7 @@ namespace HOI4Tool
                         if (direction == Direction.down)
                         {
                             // von unten gezogen
-                            draggableControl.Height = e.GetPosition(myCanvas).Y - Canvas.GetTop(draggableControl);
+                            draggableControl.Height = Math.Round(e.GetPosition(myCanvas).Y - Canvas.GetTop(draggableControl));
                         }
 
                         if (direction == Direction.up)
@@ -129,15 +129,23 @@ namespace HOI4Tool
                 else
                 {
                     // Cursoraussehen verändern, je nachdem wo sich der Mauszeiger befindet                    
-                    if (e.GetPosition(draggableControl).X >= 0 && e.GetPosition(draggableControl).X <= 1 || e.GetPosition(draggableControl).X == Math.Round(draggableControl.Width))
+                    if (e.GetPosition(draggableControl).X >= 0 && e.GetPosition(draggableControl).X <= 1 || Math.Round(e.GetPosition(draggableControl).X) == Math.Round(draggableControl.Width))
                     {
-                        Cursor = Cursors.SizeWE;
-                        direction = e.GetPosition(draggableControl).X == 0 ? Direction.left : Direction.right;
+                        //  
+                        //  <-->
+                        //  
+                        Cursor = Cursors.SizeWE; 
+                        // Left or Right?
+                        direction = Math.Round(e.GetPosition(draggableControl).X) >= 0 && Math.Round(e.GetPosition(draggableControl).X) <= 1 ? Direction.left : Direction.right;
                     }
                     else if (e.GetPosition(draggableControl).Y >= 0 && e.GetPosition(draggableControl).Y <= 1 || 
                              Math.Ceiling(e.GetPosition(draggableControl).Y) == draggableControl.Height)
                     {
-                        Cursor = Cursors.SizeNS;
+                        //  /|\
+                        //   |
+                        //  \|/
+                        Cursor = Cursors.SizeNS; 
+                        // Up or Down?
                         direction = e.GetPosition(draggableControl).Y == 0 ? Direction.up : Direction.down;
                     }
                     else
@@ -145,6 +153,8 @@ namespace HOI4Tool
                         Cursor = Cursors.SizeAll;
                         direction = Direction.none;
                     }
+
+                    lblMessage.Content = direction.ToString();
                 }
             }
 
