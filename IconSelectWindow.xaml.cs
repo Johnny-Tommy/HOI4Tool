@@ -76,6 +76,10 @@ namespace HOI4Tool
 
             if (draggableControl != null)
             {
+                // ----------------------------------
+                // Auswahlrahmen verschieben / ziehen
+                // ----------------------------------
+
                 if (isDragging)
                 {
                     double newXvalue = e.GetPosition(myCanvas).X - clickPosition.X; // Von der linken Rechteckseite aus betrachtet.
@@ -94,7 +98,10 @@ namespace HOI4Tool
                 }
                 else if (isResizing)
                 {
+                    // ---------------
                     // Größe verändern
+                    // ---------------
+
                     if (Cursor == Cursors.SizeWE)
                     {
                         if (direction == Direction.right)
@@ -128,25 +135,28 @@ namespace HOI4Tool
                 }
                 else
                 {
-                    // Cursoraussehen verändern, je nachdem wo sich der Mauszeiger befindet                    
-                    if (e.GetPosition(draggableControl).X >= 0 && e.GetPosition(draggableControl).X <= 1 || Math.Round(e.GetPosition(draggableControl).X) == Math.Round(draggableControl.Width))
+                    // --------------------------------------------------------------------
+                    // Cursoraussehen verändern, je nachdem wo sich der Mauszeiger befindet
+                    // --------------------------------------------------------------------
+
+                    if (e.GetPosition(draggableControl).X >= 0 && e.GetPosition(draggableControl).X <= 1 || Math.Ceiling(e.GetPosition(draggableControl).X) == Math.Ceiling(draggableControl.Width))
                     {
                         //  
                         //  <-->
                         //  
                         Cursor = Cursors.SizeWE; 
                         // Left or Right?
-                        direction = Math.Round(e.GetPosition(draggableControl).X) >= 0 && Math.Round(e.GetPosition(draggableControl).X) <= 1 ? Direction.left : Direction.right;
+                        direction = e.GetPosition(draggableControl).X >= 0 && e.GetPosition(draggableControl).X <= 1 ? Direction.left : Direction.right;
                     }
-                    else if (e.GetPosition(draggableControl).Y >= 0 && e.GetPosition(draggableControl).Y <= 1 || 
-                             Math.Ceiling(e.GetPosition(draggableControl).Y) == draggableControl.Height)
+                    else if (e.GetPosition(draggableControl).Y >= 0 && e.GetPosition(draggableControl).Y <= 1 ||  
+                        (Math.Ceiling(e.GetPosition(draggableControl).Y) >= Math.Floor(draggableControl.Height) && e.GetPosition(draggableControl).Y <= draggableControl.Height + 1))
                     {
                         //  /|\
                         //   |
                         //  \|/
                         Cursor = Cursors.SizeNS; 
                         // Up or Down?
-                        direction = e.GetPosition(draggableControl).Y == 0 ? Direction.up : Direction.down;
+                        direction = e.GetPosition(draggableControl).Y >= 0 && e.GetPosition(draggableControl).Y <= 1 ? Direction.up : Direction.down;                                    
                     }
                     else
                     {
@@ -154,10 +164,12 @@ namespace HOI4Tool
                         direction = Direction.none;
                     }
 
-                    lblMessage.Content = direction.ToString();
+                    //lblMessage.Content = direction.ToString();
+                    lblMessage.Content = Math.Ceiling(e.GetPosition(draggableControl).Y);
                 }
             }
 
+            // **************************************** Ausgaben der Koordinaten ****************************************
             this.lblMousePosX.Content = e.GetPosition(myCanvas).X.ToString();
             this.lblMousePosXrounded.Content = Math.Round(e.GetPosition(myCanvas).X).ToString();
             this.lblMousePosY.Content = e.GetPosition(myCanvas).Y.ToString();
@@ -165,6 +177,7 @@ namespace HOI4Tool
 
             this.lblCropFrameSizeX.Content = draggableControl.Width.ToString();
             this.lblCropFrameSizeY.Content = draggableControl.Height.ToString();
+            // **********************************************************************************************************
         }
 
         private void Rectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

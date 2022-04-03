@@ -198,6 +198,7 @@ namespace HOI4Tool
 
         public string Save()
         {
+#warning ToDo: Check if write permissions are available...
             using FileStream fsAusgabe = File.OpenWrite(this.CompletePath);
             this._Dds.Write(fsAusgabe);
             return this.CompletePath + " gespeichert.";
