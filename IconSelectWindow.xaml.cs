@@ -164,8 +164,7 @@ namespace HOI4Tool
                         direction = Direction.none;
                     }
 
-                    //lblMessage.Content = direction.ToString();
-                    lblMessage.Content = Math.Ceiling(e.GetPosition(draggableControl).Y);
+                    lblMessage.Content = direction.ToString();                  
                 }
             }
 
@@ -186,6 +185,7 @@ namespace HOI4Tool
             isResizing = false;
             Rectangle draggableControl = sender as Rectangle; // oder as Shape
             draggableControl.ReleaseMouseCapture();
+            // Use the coordinates of the rectangle shape to create an preview of the new icon.
             Int32Rect rechteck = new Int32Rect((int)Canvas.GetLeft(draggableControl), (int)Canvas.GetTop(draggableControl), (int)draggableControl.Width, (int)draggableControl.Height);
             this._croppedBmp = new CroppedBitmap(bmpImage, rechteck);
             PreviewImage.Source = this._croppedBmp;
@@ -220,13 +220,9 @@ namespace HOI4Tool
             this.croppingFrame.Height = Settings.Default.InsigniaHeight;
         }
 
-
-
-
-
-
-
 #warning Besser designen!
+        // "Save" the new Images as new Icon. This Icon will be added to the respective List of Icon in the Paradox type.
+        // Furthermore it will be appear in the Icongrid on the left side of the insignia editor.
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Icon icon = new Icon();
@@ -237,15 +233,6 @@ namespace HOI4Tool
 
             this.Close();
         }
-
-        //private byte[] GetJPGFromImageControl(BitmapImage imageC)
-        //{
-        //    MemoryStream memStream = new MemoryStream();
-        //    JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-        //    encoder.Frames.Add(BitmapFrame.Create(imageC));
-        //    encoder.Save(memStream);
-        //    return memStream.ToArray();
-        //}
 
         private System.Drawing.Bitmap GetBitmap(BitmapSource source)
         {
