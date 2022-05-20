@@ -78,18 +78,27 @@
                             <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-                            <Label Content="{Binding Path=Directories[0].LabelName}">
+                        <Grid Grid.Column="0" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="170" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="{Binding Path=Directories[0].LabelName}" Grid.Row="0" Grid.Column="0">
                                 <Label.Style>
                                     <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
                                 </Label.Style>
                             </Label>
-                            <TextBox Text="{Binding Path=Directories[0].CompletePath}">
+                            <TextBox Text="{Binding Path=Directories[0].CompletePath}" Grid.Row="0" Grid.Column="1">
                                 <TextBox.Style>
                                     <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
-                                        <Setter Property="Width" Value="400" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="Width" Value="auto" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=Directories[0].Found}" Value="False">
+                                            <DataTrigger Binding="{Binding Path=Directories[1].Found}" Value="False">
                                                 <Setter Property="Background" Value="Orange" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -97,13 +106,13 @@
                                 </TextBox.Style>
                             </TextBox>
                             <!-- Der Tag gibt den Index in der Directoryliste des Filemanagers an. Der Pfad kann dann gezielt dort gespeichert werden. -->
-                            <Button Click="OpenDir_Click" Tag="0">
+                            <Button Click="OpenDir_Click" Tag="0" Grid.Row="0" Grid.Column="2">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SetupButtonChooseDir}" />
                                 </Button.Style>
                             </Button>
-                        </StackPanel>
-                        
+                        </Grid>
+
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
                             <Label Content="{Binding Path=Directories[0].Files[0].LabelName}">
                                 <Label.Style>
@@ -237,16 +246,25 @@
                             </TextBox>
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="0">
-                            <Label Content="{Binding Path=Directories[1].LabelName}">
+                        <Grid Grid.Column="0" Grid.Row="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="170" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="{Binding Path=Directories[1].LabelName}" Grid.Row="0" Grid.Column="0">
                                 <Label.Style>
                                     <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
                                 </Label.Style>
                             </Label>
-                            <TextBox Text="{Binding Path=Directories[1].CompletePath}">
+                            <TextBox Text="{Binding Path=Directories[1].CompletePath}" Grid.Row="0" Grid.Column="1">
                                 <TextBox.Style>
                                     <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
-                                        <Setter Property="Width" Value="400" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="Width" Value="auto" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Path=Directories[1].Found}" Value="False">
                                                 <Setter Property="Background" Value="Orange" />
@@ -256,12 +274,12 @@
                                 </TextBox.Style>
                             </TextBox>
                             <!-- Der Tag gibt den Index in der Directoryliste des Filemanagers an. Der Pfad kann dann gezielt dort gespeichert werden. -->
-                            <Button Click="OpenDir_Click" Tag="1">
+                            <Button Click="OpenDir_Click" Tag="1" Grid.Row="0" Grid.Column="2">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SetupButtonChooseDir}" />
                                 </Button.Style>
                             </Button>
-                        </StackPanel>
+                        </Grid>
                         
                         <StackPanel Orientation="Horizontal" Grid.Row="9" Grid.Column="0">
                             <Label Content="{Binding Path=Directories[1].Files[0].LabelName}">
@@ -282,18 +300,27 @@
                             </TextBox>
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="0">
-                            <Label Content="{Binding Path=Directories[2].LabelName}">
+                        <Grid Grid.Column="0" Grid.Row="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="170" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="{Binding Path=Directories[2].LabelName}" Grid.Row="0" Grid.Column="0">
                                 <Label.Style>
                                     <Style TargetType="Label" BasedOn="{StaticResource SetupLabel}" />
                                 </Label.Style>
                             </Label>
-                            <TextBox Text="{Binding Path=Directories[2].CompletePath}">
+                            <TextBox Text="{Binding Path=Directories[2].CompletePath}" Grid.Row="0" Grid.Column="1">
                                 <TextBox.Style>
                                     <Style TargetType="TextBox" BasedOn="{StaticResource SetupTextBox}">
-                                        <Setter Property="Width" Value="400" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="Width" Value="auto" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=Directories[2].Found}" Value="False">
+                                            <DataTrigger Binding="{Binding Path=Directories[1].Found}" Value="False">
                                                 <Setter Property="Background" Value="Orange" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -301,12 +328,12 @@
                                 </TextBox.Style>
                             </TextBox>
                             <!-- Der Tag gibt den Index in der Directoryliste des Filemanagers an. Der Pfad kann dann gezielt dort gespeichert werden. -->
-                            <Button Click="OpenDir_Click" Tag="2">
+                            <Button Click="OpenDir_Click" Tag="2" Grid.Row="0" Grid.Column="2">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource SetupButtonChooseDir}" />
                                 </Button.Style>
                             </Button>
-                        </StackPanel>
+                        </Grid>
 
                         <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Left">
                             <Label Content="Dateien sichern:">

@@ -1,5 +1,18 @@
 ﻿using System.Reflection;
 
+[assembly: AssemblyProductAttribute("HOI4-Tool")]
+// Das ist die Programmversion (auch unter Einstellungen->Details der EXE-Datei zu sehen)
+// Dies ist noch eine Testversion. Deshalb fangen wir hier mit 0.1 an :-)
+[assembly: AssemblyFileVersionAttribute("0.2.0.0")]
+// Die Version wird nur bei Assemblys mit starkem Namen überprüft.
+// Diese ist dann relevant für die Assemblies die diese nutzen!
+// You can change the fourth digit into an '*' (wildcard) so that buildsystem automatically substitute it with the seconds from midnight divided with 2
+// Important: The assembly version attribute is also part of the "appdata\local-path" where apps save their configs in the respective user profile. (see setup)
+[assembly: AssemblyVersionAttribute("1.0.8049.*")] // for testing it is recommended to substitute the wildcard with an static number because of the location of the setup
+[assembly: AssemblyDescription("A little modding tool for the nice game Hearts of Iron IV from Paradox Interactive.")]
+[assembly: AssemblyInformationalVersion("Testversion")]
+[assembly: AssemblyCopyright("Johannes Thom")]
+
 namespace HOI4Tool
 {
     public class CustomAssemblyInfo
@@ -9,7 +22,7 @@ namespace HOI4Tool
 
         public CustomAssemblyInfo()
         {
-            this._assembly = typeof(MainWindow).Assembly;
+            this._assembly = typeof(CustomAssemblyInfo).Assembly;
             this._assemblyName = this._assembly.GetName();
         }
 
@@ -37,7 +50,7 @@ namespace HOI4Tool
                 // Sicherstellen, dass die Versionsnummer aus 4 Abschnitten, getrennt durch einen Punkt besteht.
                 if(teilstring.Length == 4)
                 {
-                    string version = teilstring[0] + "." + teilstring[1];
+                    string version = "v" + teilstring[0] + "." + teilstring[1];
                     version += "-" + this.AdditionalInfo;
                     version += " (Build: " + this.AssemblyBuild + "." + this.AssemblyMinorRevision + ")";
                     return version;
