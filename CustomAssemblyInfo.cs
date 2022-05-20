@@ -6,7 +6,9 @@
 [assembly: AssemblyFileVersionAttribute("0.2.0.0")]
 // Die Version wird nur bei Assemblys mit starkem Namen überprüft.
 // Diese ist dann relevant für die Assemblies die diese nutzen!
-[assembly: AssemblyVersionAttribute("1.0.8049.32443")]
+// You can change the fourth digit into an '*' (wildcard) so that buildsystem automatically substitute it with the seconds from midnight divided with 2
+// Important: The assembly version attribute is also part of the "appdata\local-path" where apps save their configs in the respective user profile. (see setup)
+[assembly: AssemblyVersionAttribute("1.0.8049.*")] // for testing it is recommended to substitute the wildcard with an static number because of the location of the setup
 [assembly: AssemblyDescription("A little modding tool for the nice game Hearts of Iron IV from Paradox Interactive.")]
 [assembly: AssemblyInformationalVersion("Testversion")]
 [assembly: AssemblyCopyright("Johannes Thom")]
