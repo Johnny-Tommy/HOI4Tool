@@ -6,6 +6,7 @@ using Pdoxcl2Sharp;
 
 namespace HOI4Tool
 {
+    [Serializable]
     public class Not : IParadoxRead
     {
         public IList<string> Tags { get; set; }

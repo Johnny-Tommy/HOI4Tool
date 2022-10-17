@@ -1,0 +1,164 @@
+﻿<Window x:Class="HOI4Tool.IconSelectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HOI4Tool"
+        mc:Ignorable="d"
+        Title="Bereich für neues Icon auswählen..." 
+        Height="800" 
+        Width="1000"
+        x:Name="windowIconSelect" 
+        BorderThickness="2,2,2,2" 
+        BorderBrush="#FF686868" 
+        ResizeMode="NoResize" 
+        ShowInTaskbar="False" 
+        WindowStartupLocation="CenterOwner" 
+        WindowStyle="SingleBorderWindow" Icon="/Icons/Picture.png">
+    <Window.Resources>
+        <Style TargetType="GroupBox" x:Key="DefaultGroupBox">
+            <Setter Property="Margin" Value="10,10,10,10" />
+        </Style>
+        <Style TargetType="Button" x:Key="DefaultButton">
+            <Setter Property="Content" Value="N/A" />
+            <Setter Property="Margin" Value="10,10,10,10" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="25" />
+        </Style>
+        <Style TargetType="CheckBox" x:Key="DefaultCheckbox">
+            <Setter Property="Margin" Value="10,10,10,10" />
+        </Style>
+        <Style TargetType="Label" x:Key="DefaultLabel">
+            <Setter Property="Margin" Value="2,2,2,2" />
+        </Style>
+    </Window.Resources>
+    <Grid ShowGridLines="True" x:Name="gridIconSelectWindow">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="220" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="160" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <GroupBox Style="{StaticResource DefaultGroupBox}" 
+                  Grid.Column="0"
+                  Grid.Row="0"
+                  Grid.RowSpan="10"
+                  Header=" Icon auswählen... ">
+            <Grid>
+                <ScrollViewer HorizontalScrollBarVisibility="Visible" 
+                      VerticalScrollBarVisibility="Visible" 
+                      CanContentScroll="True">
+                    <ScrollViewer.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Blue" />
+                            <GradientStop Color="Black" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ScrollViewer.Background>
+                    <Canvas x:Name="myCanvas" 
+                    Grid.Row="0" 
+                    VerticalAlignment="Top" 
+                    HorizontalAlignment="Left"
+                    Margin="10,10,10,10">
+                        <Rectangle
+                           Width="100" 
+                           Height="100"  
+                           Fill="#FFA0A0A0" 
+                           Opacity="0.4" 
+                           Stroke="Black"
+                           Canvas.Left="0"
+                           Canvas.Top="0"
+                           x:Name="croppingFrame"
+                           MouseLeftButtonUp="Rectangle_MouseLeftButtonUp" 
+                           MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" 
+                           MouseMove="Rectangle_MouseMove" 
+                           MouseLeave="Rectangle_MouseLeave" 
+                           />
+                    </Canvas>
+                </ScrollViewer>
+            </Grid>
+        </GroupBox>
+        
+        <GroupBox Grid.Row="0" 
+                  Grid.Column="1" 
+                  Header=" Vorschau " 
+                  Style="{StaticResource DefaultGroupBox}">
+            <Image x:Name="PreviewImage" 
+                   Width="32" 
+                   Height="32" />
+        </GroupBox>
+
+        <CheckBox Style="{StaticResource DefaultCheckbox}" Grid.Row="1" Grid.Column="1" x:Name="cbOriginalSize" />
+        <Button Style="{StaticResource DefaultButton}" Grid.Row="1" Grid.Column="1" 
+                VerticalAlignment="Top" HorizontalAlignment="Right" Content="Original" x:Name="cmdOriginalSize" Click="cmdOriginalSize_Click"  />
+
+        <GroupBox Grid.Row="2" 
+                  Grid.Column="1" 
+                  Header=" Maus Pos. (auf Bild in Auswahl) " 
+                  Style="{StaticResource DefaultGroupBox}">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Style="{StaticResource DefaultLabel}" Content="X:" />
+                    <Label Style="{StaticResource DefaultLabel}" x:Name="lblMousePosX" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Style="{StaticResource DefaultLabel}" Content="X (gerundet):" />
+                    <Label Style="{StaticResource DefaultLabel}" x:Name="lblMousePosXrounded" />
+                </StackPanel>
+                <Line Height="2"></Line>
+                <StackPanel Orientation="Horizontal">
+                    <Label Style="{StaticResource DefaultLabel}" Content="Y:" />
+                    <Label Style="{StaticResource DefaultLabel}" x:Name="lblMousePosY" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Style="{StaticResource DefaultLabel}" Content="Y (gerundet):" />
+                    <Label Style="{StaticResource DefaultLabel}" x:Name="lblMousePosYrounded" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Grid.Row="3" 
+                  Grid.Column="1" 
+                  Header=" Klick Pos. (in Auswahl) " 
+                  Style="{StaticResource DefaultGroupBox}">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Style="{StaticResource DefaultLabel}" Content="X:" />
+                    <Label Style="{StaticResource DefaultLabel}" x:Name="lblClickPosX" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Style="{StaticResource DefaultLabel}" Content="Y:" />
+                    <Label Style="{StaticResource DefaultLabel}" x:Name="lblClickPosY" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Grid.Row="4" 
+                  Grid.Column="1" 
+                  Header=" Größe (Auswahl) " 
+                  Style="{StaticResource DefaultGroupBox}">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Style="{StaticResource DefaultLabel}" Content="X:" />
+                    <Label Style="{StaticResource DefaultLabel}" x:Name="lblCropFrameSizeX" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Style="{StaticResource DefaultLabel}" Content="Y:" />
+                    <Label Style="{StaticResource DefaultLabel}" x:Name="lblCropFrameSizeY" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <Label Content="###" Grid.Row="5" Grid.Column="1" x:Name="lblMessage" />
+
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Button Style="{StaticResource DefaultButton}" Content="Ok" Click="Button_Click"  />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -15,6 +15,7 @@ using System.IO;
 using Pdoxcl2Sharp;
 using HOI4Tool.Properties;
 using System.Drawing;
+using System.Runtime.Serialization.Formatters.Binary; // BinaryFormatter
 
 namespace HOI4Tool
 {
@@ -24,11 +25,14 @@ namespace HOI4Tool
     public partial class Insignieneditor : Page
     {
         private Icon _currentSelectedIcon;
+        private List<Icon> _tempIconList = new List<Icon>();
         public ArmyIconsTxt armeeIcons;
         public SpriteTypes theatreSelectorGFX;
+
         public Insignieneditor()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            stackPanelButtons.DataContext = this;
 
             try
             {
@@ -110,14 +114,14 @@ namespace HOI4Tool
                                         }
                                         else
                                         {
-                                            lblMeldung.Visibility = Visibility.Visible;
-                                            lblMeldung.Content = "Es wurden keine Daten für Armeen in der Konfigdatei gefunden!";
+                                            //lblMeldung.Visibility = Visibility.Visible;
+                                            //lblMeldung.Content = "Es wurden keine Daten für Armeen in der Konfigdatei gefunden!";
                                         }
                                     }
                                     else
                                     {
-                                        lblMeldung.Visibility = Visibility.Visible;
-                                        lblMeldung.Content = "Keine Grafikdatei für " + paradoxType.ParadoxCategory.ToString() + " vorhanden.";
+                                        //lblMeldung.Visibility = Visibility.Visible;
+                                        //lblMeldung.Content = "Keine Grafikdatei für " + paradoxType.ParadoxCategory.ToString() + " vorhanden.";
                                     }
                                 }
                             }
@@ -146,6 +150,14 @@ namespace HOI4Tool
             catch(Exception err)
             {
                 MessageBox.Show(err.Message, "Fehler :-(", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public int NoCopiedIcons
+        {
+            get
+            {
+                return this._tempIconList.Count;
             }
         }
 
@@ -248,29 +260,17 @@ namespace HOI4Tool
 
         private void cmdDelete_Click(object sender, RoutedEventArgs e)
         {
-            List<Icon> iconsToDelete = new List<Icon>();
+            ParadoxType prdxType = this.GetSelectedParadoxType();
 
-            ParadoxCategory typ = (ParadoxCategory)comboBoxTyp.SelectedIndex;
-
-#warning Hier noch ne Sicherung einbauen, falls es aus irgendeinem Grund mehere Gruppen gibt.
-            foreach (ParadoxType ptyp in armeeIcons.ParadoxTypes)
+            if(prdxType != null)
             {
-                if (ptyp.ParadoxCategory == typ)
+                List<Icon> iconsToDelete = this.GetSelectedIcons();
+                foreach (Icon icon in iconsToDelete)
                 {
-                    foreach (DataGridCellInfo cellInfo in dataGridInsignien.SelectedCells)
-                    {
-                        Row r = (Row)cellInfo.Item;
-                        iconsToDelete.Add(ptyp.Icons[cellInfo.Column.DisplayIndex + 6 * r.No]);
-                    }
-
-                    foreach (Icon icon in iconsToDelete)
-                    {
-                        ptyp.Icons.Remove(icon);
-                    }
-
+                    prdxType.Icons.Remove(icon);
                 }
             }
-                        
+
             ComboBox_SelectionChanged(null, null); // Schade! Das mit der ObservableCollection klappt noch nicht ganz ohne explizite Aktualisierung :-(
         }
 
@@ -395,6 +395,119 @@ namespace HOI4Tool
             catch (Exception err)
             {
                 MessageBox.Show(err.Message, "Fehler :-(", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// Returns a list with object of type icon. Everey icon represent an insignia with all properties and graphics.
+        /// Depending on what is selected in the combobox control of the editor, this method will find every selected icon
+        /// in of the respective paradoxtype (army, armygroup or fleet). The icons of each paradoxtyp are represented in
+        /// the datagrid.
+        /// </summary>
+        /// <returns></returns>
+        private List<Icon> GetSelectedIcons()
+        {
+            List<Icon> iconList = new List<Icon>();
+            ParadoxType prdxType = this.GetSelectedParadoxType();
+
+            if(prdxType != null)
+            {
+                // go through all selected items in the dataGrid
+                foreach (DataGridCellInfo cellInfo in dataGridInsignien.SelectedCells)
+                {
+                    Row row = (Row)cellInfo.Item;
+                    // calculate the internal index of the icon list which belongs to the current paradoxType
+                    int iconIndex = cellInfo.Column.DisplayIndex + 6 * row.No;
+
+
+                    iconList.Add(prdxType.Icons[iconIndex]);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Der ParadoxTyp wurde anhand der Auswahl in der ComboBox nicht gefunden.", "Typ nicht gefunden", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            return iconList;
+        }
+
+        /// <summary>
+        /// Returns the ParadoxType object from ArmyIconsTxt which is currently, 
+        /// indirect selected via the combobox. (ParadoxTypes are army, armygroups, fleets etc.)
+        /// </summary>
+        /// <returns></returns>
+        private ParadoxType GetSelectedParadoxType()
+        {
+#warning Hier noch ne Sicherung einbauen, falls es aus irgendeinem Grund mehere Typen gibt.
+            // Save the currently selected paradox category in typ
+            ParadoxCategory currentlySelectedTyp = (ParadoxCategory)comboBoxTyp.SelectedIndex;
+
+            // Looking for the correct paradoxtype. Via the type we gain access to the icon list.
+            foreach (ParadoxType ptyp in armeeIcons.ParadoxTypes)
+            {
+                if (ptyp.ParadoxCategory == currentlySelectedTyp)
+                {
+                    return ptyp;
+                }
+            }
+
+            // Type not found for some reason.
+            return null;
+        }
+
+        private void cmdCopy_Click(object sender, RoutedEventArgs e)
+        {
+            List<Icon> selectedIconList = this.GetSelectedIcons();
+            this._tempIconList.Clear();
+
+            try
+            {
+                foreach (Icon ico in selectedIconList)
+                {
+                    this._tempIconList.Add(ico.Clone());
+                }
+
+#warning Hier noch ein INotification einbauen 
+                stackPanelButtons.DataContext = null;
+                stackPanelButtons.DataContext = this;
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message, "Fehler beim Kopieren", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void cmdInsert_Click(object sender, RoutedEventArgs e)
+        {
+            ParadoxType pType = this.GetSelectedParadoxType();
+
+            foreach(Icon icon in this._tempIconList)
+            {
+                pType.Icons.Add(icon);
+            }
+
+            // Gridansicht aktualisieren
+            dataGridInsignien.ItemsSource = null;
+            dataGridInsignien.ItemsSource = pType.IconGrid;
+        }
+
+        private void cmdAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            dlg.DefaultExt = ".png";
+            dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                ParadoxType pType = this.GetSelectedParadoxType();
+                IconSelectWindow icoSelWin = new IconSelectWindow(dlg.FileName, pType);
+                icoSelWin.ShowDialog();
+                // Gridansicht aktualisieren
+                dataGridInsignien.ItemsSource = null;
+                dataGridInsignien.ItemsSource = pType.IconGrid;
             }
         }
     }

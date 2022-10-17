@@ -9,6 +9,12 @@
       Title="Insignieneditor">
 
     <Page.Resources>
+        <Style TargetType="Button" x:Key="DefaultButton">
+            <Setter Property="Content" Value="N/A" />
+            <Setter Property="Margin" Value="10,10,10,10" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="25" />
+        </Style>
         <Style x:Key="CheckBoxOption" TargetType="{x:Type CheckBox}">
             <Setter Property="BorderThickness" Value="3" />
             <Setter Property="BorderBrush" Value="Black" />
@@ -144,12 +150,27 @@
                         </StackPanel>
                     </ComboBoxItem>
                 </ComboBox>
-                <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <Label Content="########" FontWeight="Bold" Name="lblMeldung" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden" />
-                    <Button Margin="10,10,10,10" Width="100" Height="25" Name="cmdExchange" Content="Tauschen" Click="cmdExchange_Click" />
-                    <Button Margin="10,10,10,10" Width="100" Height="25" Name="cmdDelete" Content="Löschen" Click="cmdDelete_Click" />
-                    <Button Margin="10,10,10,10" Width="100" Height="25" Name="cmdSpeichern" Content="Speichern" Click="cmdSpeichern_Click" />
+                
+                <StackPanel x:Name="stackPanelButtons" Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <Label Content="{Binding Path=NoCopiedIcons}" x:Name="lblMessage" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    <Button Style="{StaticResource DefaultButton}" Name="cmdAdd" Content="Neu" Click="cmdAdd_Click" />
+                    <Button Style="{StaticResource DefaultButton}" Name="cmdCopy" Content="Kopieren" Click="cmdCopy_Click" />
+                    <Button Name="cmdInsert" Content="Einfügen" Click="cmdInsert_Click">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource DefaultButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=NoCopiedIcons}" Value="0">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Style="{StaticResource DefaultButton}" Name="cmdExchange" Content="Tauschen" Click="cmdExchange_Click" />
+                    <Button Style="{StaticResource DefaultButton}" Name="cmdDelete" Content="Löschen" Click="cmdDelete_Click" />
+                    <Button Style="{StaticResource DefaultButton}" Name="cmdSpeichern" Content="Speichern" Click="cmdSpeichern_Click" />
                 </StackPanel>
+                
                 <GroupBox Grid.Column="1" Grid.Row="1" Header=" Eigenschaften " Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="900" Height="800"  >
                     <!-- Über diesen Namen wird in der Insignieneditor.xaml.cs der Datenkontext des aktuellen ICONs angebunden. -->
                     <Grid x:Name="gridIconProperties">

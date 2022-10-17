@@ -13,6 +13,9 @@ Special thanks to the following projects:
 #### Editor for insignia (armies, armygroups and fleets)
 ![image](https://user-images.githubusercontent.com/94912164/147831839-9bbbdfc4-6536-47f8-9598-6bca2724ff55.png)
 
+#### Create custom icons from images
+![image](https://user-images.githubusercontent.com/94912164/169599934-d071fce7-6e65-41a8-ba08-f3c8d87dedd1.png)
+
 ### How to use / first steps
 To use the insignia editor, you have to go to the setup first to configure the directory paths. This step should be self explanatory. After this you have to create a backup of the files which can be edited with this tool. To do this automatically, press the backup button. (The automated recovery doesn't work yet - just copy the files from the backup folder to their original location to recover the unmodified files)
 
